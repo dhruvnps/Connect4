@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f7328dcf-9473-40d9-89e3-04480e83fd5a" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1WcqiWiCn7DIALyav4Pg8LqseRK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager" selected="Python.Connect4_AI">
+    <configuration name="Connect4" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Connect4" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/opt/anaconda3/envs/tensor/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Connect4.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Connect4_AI" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Connect4" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$USER_HOME$/opt/anaconda3/envs/tensor/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Connect4_AI.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Connect4_AI" />
+      <item itemvalue="Python.Connect4" />
+    </list>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f7328dcf-9473-40d9-89e3-04480e83fd5a" name="Default Changelist" comment="" />
+      <created>1579459357829</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1579459357829</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="104" y="37" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579459452353">
+      <screen x="0" y="23" width="1280" height="706" />
+    </state>
+    <state x="104" y="37" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.706@0.23.1280.706" timestamp="1579459452353" />
+    <state width="1259" height="173" key="GridCell.Tab.0.bottom" timestamp="1579459475916">
+      <screen x="0" y="23" width="1280" height="706" />
+    </state>
+    <state width="1259" height="173" key="GridCell.Tab.0.bottom/0.23.1280.706@0.23.1280.706" timestamp="1579459475916" />
+    <state width="1259" height="173" key="GridCell.Tab.0.center" timestamp="1579459475915">
+      <screen x="0" y="23" width="1280" height="706" />
+    </state>
+    <state width="1259" height="173" key="GridCell.Tab.0.center/0.23.1280.706@0.23.1280.706" timestamp="1579459475915" />
+    <state width="1259" height="173" key="GridCell.Tab.0.left" timestamp="1579459475914">
+      <screen x="0" y="23" width="1280" height="706" />
+    </state>
+    <state width="1259" height="173" key="GridCell.Tab.0.left/0.23.1280.706@0.23.1280.706" timestamp="1579459475914" />
+    <state width="1259" height="173" key="GridCell.Tab.0.right" timestamp="1579459475915">
+      <screen x="0" y="23" width="1280" height="706" />
+    </state>
+    <state width="1259" height="173" key="GridCell.Tab.0.right/0.23.1280.706@0.23.1280.706" timestamp="1579459475915" />
+    <state x="141" y="23" width="997" height="706" key="SettingsEditor" timestamp="1579459389409">
+      <screen x="0" y="23" width="1280" height="706" />
+    </state>
+    <state x="141" y="23" width="997" height="706" key="SettingsEditor/0.23.1280.706@0.23.1280.706" timestamp="1579459389409" />
+  </component>
+</project>
