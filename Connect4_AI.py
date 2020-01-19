@@ -57,8 +57,12 @@ def draw_mouse(win, mouse_x, turn):
         color = RED
     else:
         color = YELLOW
-    pygame.draw.circle(win, color, (mouse_x, int(SQUARESIZE / 2)), RADIUS)
+
+    column = math.floor(mouse_x / SQUARESIZE)
+    pygame.draw.circle(win, color, (int((column + 0.5) * SQUARESIZE), int(SQUARESIZE / 2)), RADIUS)
+
     pygame.display.update()
+    return column
 
 
 def is_game_won(board):
@@ -226,6 +230,21 @@ def main():
     while running:
         draw_board(win)
 
+        # AI input
+        if turn == AI and running:
+            start = time.time()
+            if drop_coin(ai(), turn, BOARD):
+                turn = PLAYER
+                end = time.time()
+                print(end - start)
+
+            draw_board(win)
+            pygame.display.update()
+
+            if not is_game_won(BOARD) == 0:
+                running = False
+
+        # PLAYER input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -237,7 +256,7 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x = event.pos[0]
-                column = math.floor(mouse_x / SQUARESIZE)
+                column = draw_mouse(win, mouse_x, turn)
 
                 if turn == PLAYER:
                     if drop_coin(column, turn, BOARD):
@@ -248,17 +267,6 @@ def main():
 
                 if not is_game_won(BOARD) == 0:
                     running = False
-
-
-        if turn == AI and running:
-            start = time.time()
-            if drop_coin(ai(), turn, BOARD):
-                turn = PLAYER
-                end = time.time()
-                print(end - start)
-
-            if not is_game_won(BOARD) == 0:
-                running = False
 
     print(np.flipud(BOARD))
     pygame.time.wait(5000)
