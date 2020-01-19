@@ -58,7 +58,6 @@ def draw_mouse(win, mouse_x, turn):
     else:
         color = YELLOW
     pygame.draw.circle(win, color, (mouse_x, int(SQUARESIZE / 2)), RADIUS)
-
     pygame.display.update()
 
 
