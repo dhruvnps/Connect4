@@ -21,11 +21,11 @@ AI = 2
 PLAY_ORDER = [PLAYER, AI]
 # random.shuffle(PLAY_ORDER)
 
-SQUARESIZE = 100
-RADIUS = int(SQUARESIZE / 3)
+GRID_SIZE = 100
+RADIUS = int(GRID_SIZE / 3)
 
-WIN_HEIGHT = (ROW_LEN + 1) * SQUARESIZE
-WIN_WIDTH = COLUMN_LEN * SQUARESIZE
+WIN_HEIGHT = (ROW_LEN + 1) * GRID_SIZE
+WIN_WIDTH = COLUMN_LEN * GRID_SIZE
 
 HIGH_VALUE = 1000000
 
@@ -40,7 +40,7 @@ def drop_coin(column, coin, board_input):
 
 def draw_board(win):
     win.fill(WHITE)
-    pygame.draw.rect(win, BLACK, (0, SQUARESIZE, WIN_WIDTH, WIN_HEIGHT))
+    pygame.draw.rect(win, BLACK, (0, GRID_SIZE, WIN_WIDTH, WIN_HEIGHT))
 
     for column in range(COLUMN_LEN):
         for row in range(ROW_LEN):
@@ -49,7 +49,7 @@ def draw_board(win):
                 color = RED
             elif BOARD[row][column] == AI:
                 color = YELLOW
-            pygame.draw.circle(win, color, (int((column + 0.5) * SQUARESIZE), int((ROW_LEN - (row - 0.5)) * SQUARESIZE)), RADIUS)
+            pygame.draw.circle(win, color, (int((column + 0.5) * GRID_SIZE), int((ROW_LEN - (row - 0.5)) * GRID_SIZE)), RADIUS)
 
 
 def draw_mouse(win, mouse_x, turn):
@@ -58,8 +58,8 @@ def draw_mouse(win, mouse_x, turn):
     else:
         color = YELLOW
 
-    column = math.floor(mouse_x / SQUARESIZE)
-    pygame.draw.circle(win, color, (int((column + 0.5) * SQUARESIZE), int(SQUARESIZE / 2)), RADIUS)
+    column = math.floor(mouse_x / GRID_SIZE)
+    pygame.draw.circle(win, color, (int((column + 0.5) * GRID_SIZE), int(GRID_SIZE / 2)), RADIUS)
 
     pygame.display.update()
     return column
