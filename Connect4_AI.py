@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 6
+AI_DEPTH = 5
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -33,17 +33,17 @@ HIGH_VALUE = 1000000
 
 
 def drop_coin(column, coin, board_input):
-    row = next_row(column, coin, board_input)
+    row = next_row(column, board_input)
     if row is not None:
         board_input[row][column] = coin
         return True
     return False
 
 
-def next_row(column, coin, board_input):
+def next_row(column, board_input):
     for row in range(ROW_LEN):
         if board_input[row][column] == EMPTY:
-                return row
+            return row
 
 
 def get_position(row, column):
@@ -84,7 +84,7 @@ def draw_mouse(win, mouse_x, turn):
         color = YELLOW
 
     selected_column = math.floor(mouse_x / GRID_SIZE)
-    selected_row = next_row(selected_column, turn, BOARD)
+    selected_row = next_row(selected_column, BOARD)
 
     if selected_row is not None:
         selected_x, selected_y = get_position(selected_row, selected_column)
@@ -93,7 +93,7 @@ def draw_mouse(win, mouse_x, turn):
 
     # clears previous renders of this function
     for column in range(COLUMN_LEN):
-        empty_row = next_row(column, turn, BOARD)
+        empty_row = next_row(column, BOARD)
         if empty_row is not None:
             empty_x, empty_y = get_position(empty_row, column)
             pygame.draw.circle(win, WHITE, (empty_x, empty_y), RADIUS)
