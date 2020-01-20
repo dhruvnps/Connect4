@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 5
+AI_DEPTH = 6
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -100,8 +100,6 @@ def draw_mouse(win, mouse_x, turn):
     pygame.draw.rect(win, WHITE, (0, 0, WIN_WIDTH, GRID_SIZE))
 
     pygame.draw.circle(win, color, (selected_x, (GRID_SIZE / 2)), RADIUS)
-    # pygame.draw.circle(win, color, (selected_x, selected_y), RADIUS)
-
     pygame.draw.circle(win, HIGHLIGHT, (selected_x, selected_y), RADIUS, THICKNESS)
 
     pygame.display.update()
