@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7328dcf-9473-40d9-89e3-04480e83fd5a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Connect4_AI.py" beforeDir="false" afterPath="$PROJECT_DIR$/Connect4_AI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +109,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579544202039</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="updates">
+      <created>1579544299010</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1579544299010</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -132,10 +139,10 @@
       <screen x="0" y="23" width="1280" height="706" />
     </state>
     <state x="104" y="37" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.706@0.23.1280.706" timestamp="1579459452353" />
-    <state x="264" y="23" key="CommitChangelistDialog2" timestamp="1579544201758">
+    <state x="264" y="23" key="CommitChangelistDialog2" timestamp="1579544298774">
       <screen x="0" y="23" width="1280" height="706" />
     </state>
-    <state x="264" y="23" key="CommitChangelistDialog2/0.23.1280.706@0.23.1280.706" timestamp="1579544201758" />
+    <state x="264" y="23" key="CommitChangelistDialog2/0.23.1280.706@0.23.1280.706" timestamp="1579544298774" />
     <state width="1259" height="172" key="GridCell.Tab.0.bottom" timestamp="1579543999101">
       <screen x="0" y="23" width="1280" height="706" />
     </state>
@@ -156,10 +163,10 @@
       <screen x="0" y="23" width="1280" height="706" />
     </state>
     <state x="141" y="23" width="997" height="706" key="SettingsEditor/0.23.1280.706@0.23.1280.706" timestamp="1579459389409" />
-    <state x="240" y="116" key="Vcs.Push.Dialog.v2" timestamp="1579544286796">
+    <state x="240" y="116" key="Vcs.Push.Dialog.v2" timestamp="1579544307975">
       <screen x="0" y="23" width="1280" height="706" />
     </state>
-    <state x="240" y="116" key="Vcs.Push.Dialog.v2/0.23.1280.706@0.23.1280.706" timestamp="1579544286796" />
+    <state x="240" y="116" key="Vcs.Push.Dialog.v2/0.23.1280.706@0.23.1280.706" timestamp="1579544307975" />
     <state x="423" y="300" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579544194440">
       <screen x="0" y="23" width="1280" height="706" />
     </state>
