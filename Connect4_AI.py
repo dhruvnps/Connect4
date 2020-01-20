@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 5
+AI_DEPTH = 4
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -69,6 +69,9 @@ def draw_board(win, board_input):
 
 
 def show_newest_coin(win, previous_board, current_board):
+    if np.array_equal(previous_board, current_board):
+        return
+
     board = np.subtract(current_board, previous_board)
     row, column = np.nonzero(board)
     color = HIGHLIGHT
@@ -159,7 +162,7 @@ def score_position(board):
     for i in range(len(scan)):
         # score positively for combinations made by AI
         if scan[i].count(AI) == 3 and scan[i].count(EMPTY) == 1:
-            score += 5
+            score += 8
 
             # use odd-even strategy for AI
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
@@ -170,7 +173,7 @@ def score_position(board):
 
         # score negatively for combinations made by PLAYER
         if scan[i].count(PLAYER) == 3 and scan[i].count(EMPTY) == 1:
-            score -= 4
+            score -= 8
 
             # block odd-even strategy from PLAYER
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
@@ -318,7 +321,7 @@ def main():
                     running = False
 
     print(np.flipud(BOARD))
-    pygame.time.wait(5000)
+    pygame.time.wait(10000)
 
 
 if __name__ == "__main__":
