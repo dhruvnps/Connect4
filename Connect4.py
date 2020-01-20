@@ -7,14 +7,14 @@ BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
 
 BLACK = (0, 0, 0)
 WHITE = (200, 200, 200)
-RED = (217, 83, 79)
-YELLOW = (220, 150, 60)
+RED = (217, 60, 79)
+YELLOW = (250, 150, 60)
 
-SQUARESIZE = 98
-RADIUS = int(SQUARESIZE / 3)
+GRID_SIZE = 98
+RADIUS = int(GRID_SIZE / 3)
 
-WIN_HEIGHT = (ROW_LEN + 1) * SQUARESIZE
-WIN_WIDTH = COLUMN_LEN * SQUARESIZE
+WIN_HEIGHT = (ROW_LEN + 1) * GRID_SIZE
+WIN_WIDTH = COLUMN_LEN * GRID_SIZE
 
 
 def drop_coin(column, coin):
@@ -27,7 +27,7 @@ def drop_coin(column, coin):
 
 def draw_board(win):
     win.fill(WHITE)
-    pygame.draw.rect(win, BLACK, (0, SQUARESIZE, WIN_WIDTH, WIN_HEIGHT))
+    pygame.draw.rect(win, BLACK, (0, GRID_SIZE, WIN_WIDTH, WIN_HEIGHT))
 
     for column in range(COLUMN_LEN):
         for row in range(ROW_LEN):
@@ -36,7 +36,7 @@ def draw_board(win):
                 color = RED
             elif BOARD[row][column] == 2:
                 color = YELLOW
-            pygame.draw.circle(win, color, (int((column + 0.5) * SQUARESIZE), int((ROW_LEN - (row - 0.5)) * SQUARESIZE)), RADIUS)
+            pygame.draw.circle(win, color, (int((column + 0.5) * GRID_SIZE), int((ROW_LEN - (row - 0.5)) * GRID_SIZE)), RADIUS)
 
 
 def draw_mouse(win, mouse_x, turn):
@@ -44,7 +44,9 @@ def draw_mouse(win, mouse_x, turn):
         color = RED
     else:
         color = YELLOW
-    pygame.draw.circle(win, color, (mouse_x, int(SQUARESIZE / 2)), RADIUS)
+
+    column = math.floor(mouse_x / GRID_SIZE)
+    pygame.draw.circle(win, color, (int((column + 0.5) * GRID_SIZE), int(GRID_SIZE / 2)), RADIUS)
 
     pygame.display.update()
 
@@ -75,10 +77,15 @@ def main():
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
     turn = 1
+    first_refresh = True
 
     running = True
     while running:
         draw_board(win)
+
+        if first_refresh:
+            first_refresh = False
+            pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -90,7 +97,7 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x = event.pos[0]
-                column = int(math.floor(mouse_x / SQUARESIZE))
+                column = int(math.floor(mouse_x / GRID_SIZE))
 
                 if turn == 1:
                     drop_coin(column, turn)
@@ -108,7 +115,7 @@ def main():
                     running = False
 
     print(np.flipud(BOARD))
-    pygame.time.wait(5000)
+    pygame.time.wait(10000)
 
 
 if __name__ == "__main__":
