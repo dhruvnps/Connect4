@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 4
+AI_DEPTH = 6
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -22,7 +22,7 @@ AI = 2
 PLAY_ORDER = [PLAYER, AI]
 # random.shuffle(PLAY_ORDER)
 
-GRID_SIZE = 100
+GRID_SIZE = 98
 RADIUS = int(GRID_SIZE / 3)
 THICKNESS = 5
 
