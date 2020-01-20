@@ -99,7 +99,7 @@ def draw_mouse(win, mouse_x, turn):
             pygame.draw.circle(win, WHITE, (empty_x, empty_y), RADIUS)
     pygame.draw.rect(win, WHITE, (0, 0, WIN_WIDTH, GRID_SIZE))
 
-    pygame.draw.circle(win, color, (selected_x, (GRID_SIZE / 2)), RADIUS)
+    pygame.draw.circle(win, color, (selected_x, int(GRID_SIZE / 2)), RADIUS)
     pygame.draw.circle(win, HIGHLIGHT, (selected_x, selected_y), RADIUS, THICKNESS)
 
     pygame.display.update()
