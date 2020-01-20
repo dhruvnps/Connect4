@@ -91,13 +91,17 @@ def draw_mouse(win, mouse_x, turn):
     else:
         return selected_column
 
+    # clears previous renders of this function
     for column in range(COLUMN_LEN):
         empty_row = next_row(column, turn, BOARD)
         if empty_row is not None:
             empty_x, empty_y = get_position(empty_row, column)
             pygame.draw.circle(win, WHITE, (empty_x, empty_y), RADIUS)
+    pygame.draw.rect(win, WHITE, (0, 0, WIN_WIDTH, GRID_SIZE))
 
-    pygame.draw.circle(win, color, (selected_x, selected_y), RADIUS)
+    pygame.draw.circle(win, color, (selected_x, (GRID_SIZE / 2)), RADIUS)
+    # pygame.draw.circle(win, color, (selected_x, selected_y), RADIUS)
+
     pygame.draw.circle(win, HIGHLIGHT, (selected_x, selected_y), RADIUS, THICKNESS)
 
     pygame.display.update()
@@ -272,6 +276,7 @@ def main():
         if turn == AI and running:
             start = time.time()
             previous_board = BOARD.copy()
+
             if drop_coin(ai(), turn, BOARD):
                 turn = PLAYER
                 end = time.time()
@@ -297,12 +302,14 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x = event.pos[0]
                 column = draw_mouse(win, mouse_x, turn)
+                previous_board = BOARD.copy()
 
                 if turn == PLAYER:
                     if drop_coin(column, turn, BOARD):
                         turn = AI
 
                 draw_board(win, BOARD)
+                show_newest_coin(win, previous_board, BOARD)
                 pygame.display.update()
 
                 if not is_game_won(BOARD) == 0:
