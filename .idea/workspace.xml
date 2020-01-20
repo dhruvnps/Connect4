@@ -102,6 +102,10 @@
       <screen x="0" y="23" width="1280" height="706" />
     </state>
     <state x="104" y="37" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1280.706@0.23.1280.706" timestamp="1579459452353" />
+    <state x="264" y="23" key="CommitChangelistDialog2" timestamp="1579544044311">
+      <screen x="0" y="23" width="1280" height="706" />
+    </state>
+    <state x="264" y="23" key="CommitChangelistDialog2/0.23.1280.706@0.23.1280.706" timestamp="1579544044311" />
     <state width="1259" height="172" key="GridCell.Tab.0.bottom" timestamp="1579543999101">
       <screen x="0" y="23" width="1280" height="706" />
     </state>
@@ -122,5 +126,9 @@
       <screen x="0" y="23" width="1280" height="706" />
     </state>
     <state x="141" y="23" width="997" height="706" key="SettingsEditor/0.23.1280.706@0.23.1280.706" timestamp="1579459389409" />
+    <state x="423" y="300" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579544194440">
+      <screen x="0" y="23" width="1280" height="706" />
+    </state>
+    <state x="423" y="300" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1280.706@0.23.1280.706" timestamp="1579544194440" />
   </component>
 </project>
