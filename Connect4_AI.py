@@ -194,10 +194,14 @@ def odd_even_strategy(board, coin, location, score_bonus):
 
 def available_columns(board):
     options = []
-    for (x, top) in enumerate(board[ROW_LEN - 1]):
-        if top == EMPTY:
-            options.append(x)
-    return options
+    # enumerate over top row of board through all columns
+    for (column, column_top) in enumerate(board[ROW_LEN - 1]):
+        if column_top == EMPTY:
+            options.append(column)
+
+    # sorts the options list by distance to centre column
+    # this is so that minimax checks columns in optimal order for alpha beta pruning
+    return sorted(options, key=lambda x: abs(x - COLUMN_LEN // 2))
 
 
 def minimax(board, depth, alpha, beta, maximising_player):
