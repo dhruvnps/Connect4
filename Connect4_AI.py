@@ -7,7 +7,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 6
+AI_DEPTH = 4
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -18,6 +18,9 @@ RED = (217, 60, 79)
 YELLOW = (250, 150, 60)
 HIGHLIGHT = (255, 255, 255)
 
+EPIC = (242, 0, 255)
+RED = EPIC
+
 EMPTY = 0
 PLAYER = 1
 AI = 2
@@ -27,6 +30,7 @@ PLAY_ORDER = [PLAYER, AI]
 
 GRID_SIZE = 100
 RADIUS = int(GRID_SIZE / 3)
+THICKNESS = 5
 
 WIN_HEIGHT = (ROW_LEN + 1) * GRID_SIZE
 WIN_WIDTH = COLUMN_LEN * GRID_SIZE
@@ -35,17 +39,24 @@ HIGH_VALUE = 1000000
 
 
 def drop_coin(column, coin, board_input):
-    row, column = next_row(column, coin, board_input)
+    row = next_row(column, coin, board_input)
     if row is not None:
         board_input[row][column] = coin
         return True
     return False
 
+
 def next_row(column, coin, board_input):
     for row in range(ROW_LEN):
         if board_input[row][column] == EMPTY:
-                return row, column
-    return None, None
+                return row
+
+
+def get_position(row, column):
+    x = int((column + 0.5) * GRID_SIZE)
+    y = int((ROW_LEN - (row - 0.5)) * GRID_SIZE)
+    return x, y
+
 
 def draw_board(win, board_input):
     win.fill(WHITE)
@@ -59,21 +70,17 @@ def draw_board(win, board_input):
             elif board_input[row][column] == AI:
                 color = YELLOW
 
-            coin_x = int((column + 0.5) * GRID_SIZE)
-            coin_y = int((ROW_LEN - (row - 0.5)) * GRID_SIZE)
+            coin_x, coin_y = get_position(row, column)
             pygame.draw.circle(win, color, (coin_x, coin_y), RADIUS)
 
 
 def show_newest_coin(win, previous_board, current_board):
     board = np.subtract(current_board, previous_board)
     row, column = np.nonzero(board)
-    thickness = 5
-    radius = RADIUS
     color = HIGHLIGHT
 
-    coin_x = int((column[0] + 0.5) * GRID_SIZE)
-    coin_y = int((ROW_LEN - (row[0] - 0.5)) * GRID_SIZE)
-    pygame.draw.circle(win, color, (coin_x, coin_y), radius, thickness)
+    coin_x, coin_y = get_position(row[0], column[0])
+    pygame.draw.circle(win, color, (coin_x, coin_y), RADIUS, THICKNESS)
 
 
 def draw_mouse(win, mouse_x, turn):
@@ -82,14 +89,25 @@ def draw_mouse(win, mouse_x, turn):
     else:
         color = YELLOW
 
-    column = math.floor(mouse_x / GRID_SIZE)
-    column_x = int((column + 0.5) * GRID_SIZE)
-    column_y = 0
-    pygame.draw.rect(win, WHITE , (0, 0, WIN_WIDTH, GRID_SIZE))
-    pygame.draw.circle(win, color, (column_x, int(GRID_SIZE / 2)), RADIUS)
+    selected_column = math.floor(mouse_x / GRID_SIZE)
+    selected_row = next_row(selected_column, turn, BOARD)
+
+    if selected_row is not None:
+        selected_x, selected_y = get_position(selected_row, selected_column)
+    else:
+        return selected_column
+
+    for column in range(COLUMN_LEN):
+        empty_row = next_row(column, turn, BOARD)
+        if empty_row is not None:
+            empty_x, empty_y = get_position(empty_row, column)
+            pygame.draw.circle(win, WHITE, (empty_x, empty_y), RADIUS)
+
+    pygame.draw.circle(win, color, (selected_x, selected_y), RADIUS)
+    pygame.draw.circle(win, HIGHLIGHT, (selected_x, selected_y), RADIUS, THICKNESS)
 
     pygame.display.update()
-    return column
+    return selected_column
 
 
 def is_game_won(board):
