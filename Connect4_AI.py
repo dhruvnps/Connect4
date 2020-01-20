@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 4
+AI_DEPTH = 6
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -162,25 +162,25 @@ def score_position(board):
     for i in range(len(scan)):
         # score positively for combinations made by AI
         if scan[i].count(AI) == 3 and scan[i].count(EMPTY) == 1:
-            score += 8
+            score += 10
 
             # use odd-even strategy for AI
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
-            score += odd_even_strategy(board, AI, empty_location, 100)
+            score += odd_even_strategy(board, AI, empty_location, 50)
 
         if scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
             score += 2
 
         # score negatively for combinations made by PLAYER
         if scan[i].count(PLAYER) == 3 and scan[i].count(EMPTY) == 1:
-            score -= 8
+            score += -8
 
             # block odd-even strategy from PLAYER
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
-            score += odd_even_strategy(board, PLAYER, empty_location, -80)
+            score += odd_even_strategy(board, PLAYER, empty_location, -40)
 
     # score positively for AI coins in center column
-    center_column = [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
+    center_column = 6 * [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
     score += center_column.count(AI)
 
     return score
@@ -259,9 +259,13 @@ def minimax(board, depth, alpha, beta, maximising_player):
 # this is what is called by main function
 # should return index of column (0 to 6 inclusive)
 def ai():
+    # first 2 moves should always be centre column
     if np.count_nonzero(BOARD) <= 2:
         return COLUMN_LEN // 2
+
+    # else, calculate best move
     results = minimax(BOARD, AI_DEPTH, -math.inf, math.inf, True)
+
     print(results[1])
     return results[0]
 
