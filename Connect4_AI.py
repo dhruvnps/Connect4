@@ -1,6 +1,3 @@
-# NOTE: make is such that while picking, the place where the coin
-# will end up will have white border, i.e. like when AI drops coin
-
 import pygame
 import numpy as np
 import math
@@ -17,9 +14,6 @@ WHITE = (200, 200, 200)
 RED = (217, 60, 79)
 YELLOW = (250, 150, 60)
 HIGHLIGHT = (255, 255, 255)
-
-EPIC = (242, 0, 255)
-RED = EPIC
 
 EMPTY = 0
 PLAYER = 1
