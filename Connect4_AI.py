@@ -35,12 +35,17 @@ HIGH_VALUE = 1000000
 
 
 def drop_coin(column, coin, board_input):
-    for row in range(ROW_LEN):
-        if board_input[row][column] == EMPTY:
-            board_input[row][column] = coin
-            return True
+    row, column = next_row(column, coin, board_input)
+    if row is not None:
+        board_input[row][column] = coin
+        return True
     return False
 
+def next_row(column, coin, board_input):
+    for row in range(ROW_LEN):
+        if board_input[row][column] == EMPTY:
+                return row, column
+    return None, None
 
 def draw_board(win, board_input):
     win.fill(WHITE)
@@ -79,6 +84,7 @@ def draw_mouse(win, mouse_x, turn):
 
     column = math.floor(mouse_x / GRID_SIZE)
     column_x = int((column + 0.5) * GRID_SIZE)
+    column_y = 0
     pygame.draw.rect(win, WHITE , (0, 0, WIN_WIDTH, GRID_SIZE))
     pygame.draw.circle(win, color, (column_x, int(GRID_SIZE / 2)), RADIUS)
 
