@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 6
+AI_DEPTH = 7
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -125,29 +125,31 @@ def scan_fours(board):
 
     for row in range(ROW_LEN):
         for column in range(COLUMN_LEN):
-            # adds row to scan
-            if column + 3 < COLUMN_LEN:
-                scan.append([board[row][column + i] for i in range(4)])
-                # row index for every coin of scan for odd-even strategy
-                locations.append([(row, column + i) for i in range(4)])
+            # only check spaces with coin to improve speed of scan
+            if board[row][column] != EMPTY:
+                # adds row to scan
+                if column + 3 < COLUMN_LEN:
+                    scan.append([board[row][column + i] for i in range(4)])
+                    # row index for every coin of scan for odd-even strategy
+                    locations.append([(row, column + i) for i in range(4)])
 
-            # adds column to scan
-            if row + 3 < ROW_LEN:
-                scan.append([board[row + i][column] for i in range(4)])
-                # odd-even strategy cannot be applied for rows
-                locations.append((0, 0) for i in range(4))
+                # adds column to scan
+                if row + 3 < ROW_LEN:
+                    scan.append([board[row + i][column] for i in range(4)])
+                    # odd-even strategy cannot be applied for rows
+                    locations.append((0, 0) for i in range(4))
 
-            # adds negative diagonal to scan
-            if row - 3 >= 0 and column + 3 < COLUMN_LEN:
-                scan.append([board[row - i][column + i] for i in range(4)])
-                # row index for every coin of scan for odd-even strategy
-                locations.append([(row - i, column + i) for i in range(4)])
+                # adds negative diagonal to scan
+                if row - 3 >= 0 and column + 3 < COLUMN_LEN:
+                    scan.append([board[row - i][column + i] for i in range(4)])
+                    # row index for every coin of scan for odd-even strategy
+                    locations.append([(row - i, column + i) for i in range(4)])
 
-            # adds positive diagonal to scan
-            if row + 3 < ROW_LEN and column + 3 < COLUMN_LEN:
-                # row index for every coin of scan for odd-even strategy
-                scan.append([board[row + i][column + i] for i in range(4)])
-                locations.append([(row + i, column + i) for i in range(4)])
+                # adds positive diagonal to scan
+                if row + 3 < ROW_LEN and column + 3 < COLUMN_LEN:
+                    # row index for every coin of scan for odd-even strategy
+                    scan.append([board[row + i][column + i] for i in range(4)])
+                    locations.append([(row + i, column + i) for i in range(4)])
 
     return scan, locations
 
@@ -162,25 +164,22 @@ def score_position(board):
     for i in range(len(scan)):
         # score positively for combinations made by AI
         if scan[i].count(AI) == 3 and scan[i].count(EMPTY) == 1:
-            score += 10
+            score += 5
 
             # use odd-even strategy for AI
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
             score += odd_even_strategy(board, AI, empty_location, 100)
 
-        if scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
-            score += 2
-
         # score negatively for combinations made by PLAYER
         if scan[i].count(PLAYER) == 3 and scan[i].count(EMPTY) == 1:
-            score += -8
+            score += -4
 
             # block odd-even strategy from PLAYER
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
             score += odd_even_strategy(board, PLAYER, empty_location, -80)
 
     # score positively for AI coins in center column
-    center_column = 2 * [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
+    center_column = [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
     score += center_column.count(AI)
 
     return score
@@ -210,8 +209,6 @@ def available_columns(board):
 def minimax(board, depth, alpha, beta, maximising_player):
     if depth == 0:
         return None, score_position(board)
-    elif len(available_columns(board)) == 0:
-        return None, 0
     elif is_game_won(board) == AI:
         return None, HIGH_VALUE
     elif is_game_won(board) == PLAYER:
