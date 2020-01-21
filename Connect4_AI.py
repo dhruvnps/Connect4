@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 7
+AI_DEPTH = 6
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -125,31 +125,28 @@ def scan_fours(board):
 
     for row in range(ROW_LEN):
         for column in range(COLUMN_LEN):
-            # only check spaces with coin to improve speed of scan
-            if board[row][column] != EMPTY:
-                # adds row to scan
-                if column + 3 < COLUMN_LEN:
-                    scan.append([board[row][column + i] for i in range(4)])
-                    # row index for every coin of scan for odd-even strategy
-                    locations.append([(row, column + i) for i in range(4)])
+            # adds row to scan
+            if column + 3 < COLUMN_LEN:
+                scan.append([board[row][column + i] for i in range(4)])
+                # row index for every coin of scan for odd-even strategy
+                locations.append([(row, column + i) for i in range(4)])
 
-                # adds column to scan
-                if row + 3 < ROW_LEN:
-                    scan.append([board[row + i][column] for i in range(4)])
-                    # odd-even strategy cannot be applied for rows
-                    locations.append((0, 0) for i in range(4))
+            # adds column to scan
+            if row + 3 < ROW_LEN:
+                scan.append([board[row + i][column] for i in range(4)])
+                # odd-even strategy cannot be applied for rows
+                locations.append((0, 0) for i in range(4))
 
-                # adds negative diagonal to scan
-                if row - 3 >= 0 and column + 3 < COLUMN_LEN:
-                    scan.append([board[row - i][column + i] for i in range(4)])
-                    # row index for every coin of scan for odd-even strategy
-                    locations.append([(row - i, column + i) for i in range(4)])
-
-                # adds positive diagonal to scan
-                if row + 3 < ROW_LEN and column + 3 < COLUMN_LEN:
-                    # row index for every coin of scan for odd-even strategy
-                    scan.append([board[row + i][column + i] for i in range(4)])
-                    locations.append([(row + i, column + i) for i in range(4)])
+            # adds negative diagonal to scan
+            if row - 3 >= 0 and column + 3 < COLUMN_LEN:
+                scan.append([board[row - i][column + i] for i in range(4)])
+                # row index for every coin of scan for odd-even strategy
+                locations.append([(row - i, column + i) for i in range(4)])
+            # adds positive diagonal to scan
+            if row + 3 < ROW_LEN and column + 3 < COLUMN_LEN:
+                # row index for every coin of scan for odd-even strategy
+                scan.append([board[row + i][column + i] for i in range(4)])
+                locations.append([(row + i, column + i) for i in range(4)])
 
     return scan, locations
 
