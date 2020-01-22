@@ -38,7 +38,7 @@ def drop_coin(column, coin, board_input):
         board_input[row][column] = coin
         return True
     return False
-    
+
 
 def next_row(column, board_input):
     for row in range(ROW_LEN):
@@ -192,7 +192,9 @@ def odd_even_strategy(board, coin, location, score_bonus):
     row, column = location
     if row > 0:
         # rewards applying the odd-even strategy
+        # if the even/odd player has a hanging combination on the respective even/odd row
         if row % 2 == PLAY_ORDER.index(coin) and board[row - 1][column] == EMPTY:
+            # reward combinations lower down more greatly
             return score_bonus * (ROW_LEN - row)
     return 0
 
@@ -221,6 +223,7 @@ def minimax(board, depth, alpha, beta, maximising_player):
 
     best_column = None
 
+    # returns move that will result in BEST outcome for AI
     if maximising_player:
         best_score = -math.inf
         for column in available_columns(board):
@@ -231,12 +234,14 @@ def minimax(board, depth, alpha, beta, maximising_player):
                 best_score = next_score
                 best_column = column
 
+            # alpha beta pruning
             alpha = max(best_score, alpha)
             if alpha >= beta:
                 break
             if alpha == HIGH_VALUE:
                 return best_column, best_score
 
+    # returns move that will result in WORST outcome for AI
     else:
         best_score = math.inf
         for column in available_columns(board):
@@ -247,6 +252,7 @@ def minimax(board, depth, alpha, beta, maximising_player):
                 best_score = next_score
                 best_column = column
 
+            # alpha beta pruning
             beta = min(best_score, beta)
             if alpha >= beta:
                 break
