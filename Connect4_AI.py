@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 6
+AI_DEPTH = 7
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -38,7 +38,7 @@ def drop_coin(column, coin, board_input):
         board_input[row][column] = coin
         return True
     return False
-
+    
 
 def next_row(column, board_input):
     for row in range(ROW_LEN):
@@ -216,6 +216,8 @@ def minimax(board, depth, alpha, beta, maximising_player):
         return None, HIGH_VALUE
     elif is_game_won(board) == PLAYER:
         return None, -HIGH_VALUE
+    elif len(available_columns(board)) == 0:
+        return None, 0
 
     best_column = None
 
