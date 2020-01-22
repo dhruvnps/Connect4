@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 6
+AI_DEPTH = 7
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -23,8 +23,8 @@ PLAY_ORDER = [PLAYER, AI]
 # random.shuffle(PLAY_ORDER)
 
 GRID_SIZE = 98
-RADIUS = int(GRID_SIZE / 3)
-THICKNESS = 5
+RADIUS = int(GRID_SIZE / 2.7)
+THICKNESS = 7
 
 WIN_HEIGHT = (ROW_LEN + 1) * GRID_SIZE
 WIN_WIDTH = COLUMN_LEN * GRID_SIZE
@@ -160,23 +160,29 @@ def score_position(board):
 
     for i in range(len(scan)):
         # score positively for combinations made by AI
-        if scan[i].count(AI) == 3 and scan[i].count(EMPTY) == 1:
+        if scan[i].count(AI) == 4:
+            score += 100
+
+        elif scan[i].count(AI) == 3 and scan[i].count(EMPTY) == 1:
             score += 5
 
             # use odd-even strategy for AI
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
             score += odd_even_strategy(board, AI, empty_location, 100)
 
+        elif scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
+            score += 2
+
         # score negatively for combinations made by PLAYER
         if scan[i].count(PLAYER) == 3 and scan[i].count(EMPTY) == 1:
-            score += -5
+            score += -4
 
             # block odd-even strategy from PLAYER
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
             score += odd_even_strategy(board, PLAYER, empty_location, -100)
 
     # score positively for AI coins in center column
-    center_column = [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
+    center_column = 3 * [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
     score += center_column.count(AI)
 
     return score
