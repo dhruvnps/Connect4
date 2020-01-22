@@ -4,7 +4,7 @@ import math
 import random
 import time
 
-AI_DEPTH = 7
+AI_DEPTH = 6
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
