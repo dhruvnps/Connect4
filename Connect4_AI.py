@@ -158,8 +158,7 @@ def scan_fours(board):
 # initialises random table for zobrist hashing
 ZOB_TABLE = []
 for _ in range(ROW_LEN):
-    for _ in range(COLUMN_LEN):
-        ZOB_TABLE.append([random.randint(1, 2**64 - 1) for _ in range(2)])
+    ZOB_TABLE.append([[random.randint(1, 2**64 - 1) for _ in range(2)] for _ in range(COLUMN_LEN)])
 
 # will contain hashes of calculated boards and the realtive calculation depths
 CACHE_TABLE = []
@@ -167,12 +166,14 @@ CACHE_TABLE = []
 
 def calculate_hash(board):
     hash = 0
-    for i in range(ROW_LEN):
-        for j in range(COLUMN_LEN):
-            if board[i][j] != 0:
-                piece = int(board[i][j]) - 1
-                h ^= ZOB_TABLE[i][j][piece]
-    print("HASH: " + str(h))
+    for row in range(ROW_LEN):
+        for column in range(COLUMN_LEN):
+            if board[row][column] != EMPTY:
+                # coin index must be either 0 or 1
+                coin_index = int(board[row][column]) - 1
+                # alters hash of board based on coin using zobrist hashing
+                hash ^= ZOB_TABLE[row][column][coin_index]
+    return hash
 
 
 def score_position(board):
