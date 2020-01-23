@@ -4,6 +4,7 @@ import math
 import random
 import time
 
+
 AI_DEPTH = 6
 
 ROW_LEN, COLUMN_LEN = 6, 7
@@ -198,6 +199,8 @@ def odd_even_strategy(board, coin, location, score_bonus):
             return score_bonus * (ROW_LEN - row)
     return 0
 
+def hash():
+    pass
 
 def available_columns(board):
     options = []
