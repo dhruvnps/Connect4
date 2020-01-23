@@ -199,6 +199,14 @@ def odd_even_strategy(board, coin, location, score_bonus):
     return 0
 
 
+def init_zobrist():
+    pass
+
+
+def hash():
+    pass
+
+
 def available_columns(board):
     options = []
     # enumerate over top row of board through all columns
