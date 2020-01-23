@@ -155,6 +155,26 @@ def scan_fours(board):
 # //----------------------------------------AI_START----------------------------------------//
 
 
+# initialises random table for zobrist hashing
+ZOB_TABLE = []
+for _ in range(ROW_LEN):
+    for _ in range(COLUMN_LEN):
+        ZOB_TABLE.append([random.randint(1, 2**64 - 1) for _ in range(2)])
+
+# will contain hashes of calculated boards and the realtive calculation depths
+CACHE_TABLE = []
+
+
+def calculate_hash(board):
+    hash = 0
+    for i in range(ROW_LEN):
+        for j in range(COLUMN_LEN):
+            if board[i][j] != 0:
+                piece = int(board[i][j]) - 1
+                h ^= ZOB_TABLE[i][j][piece]
+    print("HASH: " + str(h))
+
+
 def score_position(board):
     score = 0
     scan, locations = scan_fours(board)
@@ -199,8 +219,6 @@ def odd_even_strategy(board, coin, location, score_bonus):
             return score_bonus * (ROW_LEN - row)
     return 0
 
-def hash():
-    pass
 
 def available_columns(board):
     options = []
