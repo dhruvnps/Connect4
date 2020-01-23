@@ -3,9 +3,10 @@ import numpy as np
 import math
 import random
 import time
+import signal
 
 
-AI_DEPTH = 6
+AI_TIME = 8
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -160,8 +161,8 @@ ZOB_TABLE = []
 for _ in range(ROW_LEN):
     ZOB_TABLE.append([[random.randint(1, 2**64 - 1) for _ in range(2)] for _ in range(COLUMN_LEN)])
 
-# will contain hashes of calculated boards and the realtive calculation depths
-CACHE_TABLE = []
+# will contain hashes, calculation depths, and scores of calculated boards
+CACHE_TABLE = [[], [], [], []]
 
 
 def calculate_hash(board):
@@ -204,8 +205,8 @@ def score_position(board):
             score += odd_even_strategy(board, PLAYER, empty_location, -100)
 
     # score positively for AI coins in center column
-    center_column = 3 * [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
-    score += center_column.count(AI)
+    center_column = [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
+    score += 3 * center_column.count(AI)
 
     return score
 
@@ -234,6 +235,9 @@ def available_columns(board):
 
 
 def minimax(board, depth, alpha, beta, maximising_player):
+    best_column = None
+    hash = calculate_hash(board)
+
     if depth == 0:
         return None, score_position(board)
     elif is_game_won(board) == AI:
@@ -243,7 +247,13 @@ def minimax(board, depth, alpha, beta, maximising_player):
     elif len(available_columns(board)) == 0:
         return None, 0
 
-    best_column = None
+    # check it cache table can be used for given board
+    if hash in CACHE_TABLE[0]:
+        hash_index = CACHE_TABLE[0].index(hash)
+        calculation_depth = CACHE_TABLE[1][hash_index]
+        if calculation_depth >= depth:
+            # return the best column and best score based on the previous calculation
+            return CACHE_TABLE[2][hash_index], CACHE_TABLE[3][hash_index]
 
     # returns move that will result in BEST outcome for AI
     if maximising_player:
@@ -283,7 +293,24 @@ def minimax(board, depth, alpha, beta, maximising_player):
 
     if best_column is None:
         best_column = random.choice(available_columns(board))
+
+    # add results of calculation to cache table
+    items_to_add = [hash, depth, best_column, best_score]
+    if hash in CACHE_TABLE[0]:
+        # overwrite lower depth calculation with current calculation
+        hash_index = CACHE_TABLE[0].index(hash)
+        for (x, i) in enumerate(items_to_add):
+            CACHE_TABLE[x][hash_index] = i
+    else:
+        # write current calculation to cache table
+        for (x, i) in enumerate(items_to_add):
+            CACHE_TABLE[x].append(i)
+
     return best_column, best_score
+
+
+def handler(signum, frame):
+    raise Exception
 
 
 # this is what is called by main function
@@ -293,11 +320,31 @@ def ai():
     if np.count_nonzero(BOARD) <= 2:
         return COLUMN_LEN // 2
 
-    # else, calculate best move
-    results = minimax(BOARD, AI_DEPTH, -math.inf, math.inf, True)
+    # never be first to place coin in column other than center
+    center_column = [BOARD[row][COLUMN_LEN // 2] for row in range(ROW_LEN)]
+    if COLUMN_LEN // 2 in available_columns(BOARD):
+        if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
+            return COLUMN_LEN // 2
 
-    print(results[1])
-    return results[0]
+    # else, calculate best move
+    start = time.time()
+    signal.signal(signal.SIGALRM, handler)
+    signal.alarm(AI_TIME)
+
+    try:
+        depth = 1
+        results = None
+        while True:
+            results = minimax(BOARD, depth, -math.inf, math.inf, True)
+            depth += 1
+            if results[1] == HIGH_VALUE:
+                signal.alarm(0)
+
+    except Exception:
+        print("TIME: " + str(time.time() - start))
+        print("DEPTH: " + str(depth))
+        print("SCORE: " + str(results[1]))
+        return results[0]
 
 
 # //-----------------------------------------AI_END-----------------------------------------//
@@ -313,13 +360,10 @@ def main():
     while running:
         # AI input
         if turn == AI and running:
-            start = time.time()
             previous_board = BOARD.copy()
 
             if drop_coin(ai(), turn, BOARD):
                 turn = PLAYER
-                end = time.time()
-                print(end - start)
 
             draw_board(win, BOARD)
             show_newest_coin(win, previous_board, BOARD)
