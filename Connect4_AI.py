@@ -4,9 +4,9 @@ import math
 import random
 import time
 import signal
-    
 
-AI_TIME = 5
+
+AI_TIME = 3
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
