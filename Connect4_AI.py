@@ -4,9 +4,7 @@ import math
 import random
 import time
 import signal
-from multiprocessing import Process
-import queue
-
+    
 
 AI_TIME = 5
 
@@ -24,6 +22,7 @@ PLAYER = 1
 AI = 2
 
 PLAY_ORDER = [PLAYER, AI]
+# PLAY_ORDER.reverse()
 # random.shuffle(PLAY_ORDER)
 
 GRID_SIZE = 98
@@ -148,8 +147,8 @@ def scan_fours(board):
                 locations.append([(row - i, column + i) for i in range(4)])
             # adds positive diagonal to scan
             if row + 3 < ROW_LEN and column + 3 < COLUMN_LEN:
-                # row index for every coin of scan for odd-even strategy
                 scan.append([board[row + i][column + i] for i in range(4)])
+                # row index for every coin of scan for odd-even strategy
                 locations.append([(row + i, column + i) for i in range(4)])
 
     return scan, locations
@@ -163,8 +162,9 @@ ZOB_TABLE = []
 for _ in range(ROW_LEN):
     ZOB_TABLE.append([[random.randint(1, 2**64 - 1) for _ in range(2)] for _ in range(COLUMN_LEN)])
 
-# will contain hashes, calculation depths, and scores of calculated boards
+# cache table will contain hashes, calculation depths, and scores of calculated boards
 CACHE_TABLE = [[], [], [], []]
+CACHE_MAX = 2800
 
 
 def calculate_hash(board):
@@ -299,14 +299,17 @@ def minimax(board, depth, alpha, beta, maximising_player):
     # add results of calculation to cache table
     items_to_add = [hash, depth, best_column, best_score]
     if hash in CACHE_TABLE[0]:
-        # overwrite lower depth calculation with current calculation
+        # remove lower depth calculations of calculated board
         hash_index = CACHE_TABLE[0].index(hash)
-        for (x, i) in enumerate(items_to_add):
-            CACHE_TABLE[x][hash_index] = i
-    else:
-        # write current calculation to cache table
-        for (x, i) in enumerate(items_to_add):
-            CACHE_TABLE[x].append(i)
+        for i in CACHE_TABLE:
+            i.pop(hash_index)
+    for (x, i) in enumerate(items_to_add):
+        CACHE_TABLE[x].append(i)
+
+    # cull cache table
+    if len(CACHE_TABLE[0]) > CACHE_MAX:
+        for i in range(len(CACHE_TABLE)):
+            CACHE_TABLE[i] = CACHE_TABLE[i][-CACHE_MAX:]
 
     return best_column, best_score
 
@@ -320,12 +323,14 @@ def handler(signum, frame):
 def ai():
     # first 2 moves should always be centre column
     if np.count_nonzero(BOARD) <= 2:
+        time.sleep(1)
         return COLUMN_LEN // 2
 
     # never be first to place coin in column other than center
     center_column = [BOARD[row][COLUMN_LEN // 2] for row in range(ROW_LEN)]
     if COLUMN_LEN // 2 in available_columns(BOARD):
         if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
+            time.sleep(1)
             return COLUMN_LEN // 2
 
     # if no preset move, calculate best move
@@ -342,6 +347,8 @@ def ai():
             depth += 1
             if results[1] == HIGH_VALUE:
                 signal.alarm(0)
+                time.sleep(1)
+                raise Exception
 
     except Exception:
         print("TIME: " + str(time.time() - start))
@@ -368,7 +375,6 @@ def main():
             if drop_coin(ai(), turn, BOARD):
                 turn = PLAYER
 
-            #q.put(BOARD)
             draw_board(win, BOARD)
             show_newest_coin(win, previous_board, BOARD)
             pygame.display.update()
