@@ -4,9 +4,11 @@ import math
 import random
 import time
 import signal
+from multiprocessing import Process
+import queue
 
 
-AI_TIME = 8
+AI_TIME = 5
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -326,12 +328,13 @@ def ai():
         if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
             return COLUMN_LEN // 2
 
-    # else, calculate best move
+    # if no preset move, calculate best move
     start = time.time()
     signal.signal(signal.SIGALRM, handler)
     signal.alarm(AI_TIME)
 
     try:
+        # iterative deepening of minimax search
         depth = 1
         results = None
         while True:
@@ -359,17 +362,18 @@ def main():
     running = True
     while running:
         # AI input
-        if turn == AI and running:
+        if turn == AI:
             previous_board = BOARD.copy()
 
             if drop_coin(ai(), turn, BOARD):
                 turn = PLAYER
 
+            #q.put(BOARD)
             draw_board(win, BOARD)
             show_newest_coin(win, previous_board, BOARD)
             pygame.display.update()
 
-            if not is_game_won(BOARD) == 0:
+            if is_game_won(BOARD) != 0 or len(available_columns(BOARD)) == 0:
                 running = False
 
         # PLAYER input
@@ -391,12 +395,12 @@ def main():
                     if drop_coin(column, turn, BOARD):
                         turn = AI
 
-                draw_board(win, BOARD)
-                show_newest_coin(win, previous_board, BOARD)
-                pygame.display.update()
+                    draw_board(win, BOARD)
+                    show_newest_coin(win, previous_board, BOARD)
+                    pygame.display.update()
 
-                if not is_game_won(BOARD) == 0:
-                    running = False
+                    if is_game_won(BOARD) != 0 or len(available_columns(BOARD)) == 0:
+                        running = False
 
     print(np.flipud(BOARD))
     pygame.time.wait(10000)
