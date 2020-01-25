@@ -6,6 +6,7 @@ import time
 import signal
 
 
+# maximum seconds AI can take
 AI_TIME = 2
 
 ROW_LEN, COLUMN_LEN = 6, 7
@@ -224,12 +225,22 @@ def score_position(board):
 
 def odd_even_strategy(board, coin, location, score_bonus):
     row, column = location
+
+    # rewards imminent victory in preference of odd-even strategy
+    # checks if the turn of the coin in question
+    if (np.count_nonzero(board != EMPTY) - PLAY_ORDER.index(coin)) % 2 == 0:
+        if row == 0 or board[row - 1][column] != EMPTY:
+            # return negative/positive value if bonus is -100/100 respectively
+            return (score_bonus / abs(score_bonus)) * (HIGH_VALUE / 10)
+
     if row > 0:
         # rewards applying the odd-even strategy
         # if the even/odd player has a hanging combination on the respective even/odd row
         if row % 2 == PLAY_ORDER.index(coin) and board[row - 1][column] == EMPTY:
             # reward combinations lower down more greatly
             return score_bonus * (ROW_LEN - row)
+
+    # if no reward is to be given
     return 0
 
 
