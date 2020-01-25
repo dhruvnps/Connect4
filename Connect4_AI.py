@@ -208,6 +208,9 @@ def score_position(board):
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
             score += odd_even_strategy(board, AI, empty_location, 100)
 
+        elif scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
+            score += 2
+
         # score negatively for combinations made by PLAYER
         if scan[i].count(PLAYER) == 3 and scan[i].count(EMPTY) == 1:
             score += -5
@@ -215,6 +218,9 @@ def score_position(board):
             # block odd-even strategy from PLAYER
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
             score += odd_even_strategy(board, PLAYER, empty_location, -100)
+
+        elif scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
+            score += -2
 
     # score positively for AI coins in center column
     center_column = [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
