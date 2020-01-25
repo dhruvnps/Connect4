@@ -7,7 +7,7 @@ import signal
 
 
 # maximum seconds AI can take
-AI_TIME = 5
+AI_TIME = 6
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -224,7 +224,7 @@ def score_position(board):
 
     # score positively for AI coins in center column
     center_column = [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
-    score += 3 * center_column.count(AI)
+    score += 2 * center_column.count(AI)
 
     return score
 
