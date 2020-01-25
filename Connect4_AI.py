@@ -6,12 +6,12 @@ import time
 import signal
 
 
-AI_TIME = 3
+AI_TIME = 2
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
 
-BLACK = (0, 0, 0)
+BLACK = (30, 30, 30)
 WHITE = (200, 200, 200)
 RED = (217, 60, 79)
 YELLOW = (250, 150, 60)
@@ -83,12 +83,7 @@ def show_newest_coin(win, previous_board, current_board):
     pygame.draw.circle(win, color, (coin_x, coin_y), RADIUS, THICKNESS)
 
 
-def draw_mouse(win, mouse_x, turn):
-    if turn == PLAYER:
-        color = RED
-    else:
-        color = YELLOW
-
+def draw_mouse(win, mouse_x):
     selected_column = math.floor(mouse_x / GRID_SIZE)
     selected_row = next_row(selected_column, BOARD)
 
@@ -105,20 +100,40 @@ def draw_mouse(win, mouse_x, turn):
             pygame.draw.circle(win, WHITE, (empty_x, empty_y), RADIUS)
     pygame.draw.rect(win, WHITE, (0, 0, WIN_WIDTH, GRID_SIZE))
 
-    pygame.draw.circle(win, color, (selected_x, int(GRID_SIZE / 2)), RADIUS)
+    pygame.draw.circle(win, RED, (selected_x, int(GRID_SIZE / 2)), RADIUS)
     pygame.draw.circle(win, HIGHLIGHT, (selected_x, selected_y), RADIUS, THICKNESS)
 
     pygame.display.update()
     return selected_column
 
 
-def is_game_won(board):
-    scan = scan_fours(board)
-    if [PLAYER for _ in range(4)] in scan[0]:
+def draw_victory(coin, startpoint, endpoint, win):
+    if coin == PLAYER:
+        color = RED
+    else:
+        color = YELLOW
+    pygame.time.wait(1000)
+    pygame.draw.line(win, color, get_position(*startpoint), get_position(*endpoint), THICKNESS)
+    pygame.display.update()
+
+
+def is_victory(board, win):
+    scan, locations = scan_fours(board)
+
+    # if called by main funtion victory must be shown
+    if win is not None:
+        index = None
+        if [PLAYER for _ in range(4)] in scan:
+            index = scan.index([PLAYER for _ in range(4)])
+            draw_victory(PLAYER, locations[index][0], locations[index][3], win)
+        elif [AI for _ in range(4)] in scan:
+            index = scan.index([AI for _ in range(4)])
+            draw_victory(AI, locations[index][0], locations[index][3], win)
+
+    if [PLAYER for _ in range(4)] in scan:
         return PLAYER
-    elif [AI for _ in range(4)] in scan[0]:
+    elif [AI for _ in range(4)] in scan:
         return AI
-    return 0
 
 
 # returns a list with all possible windows of 4
@@ -137,8 +152,8 @@ def scan_fours(board):
             # adds column to scan
             if row + 3 < ROW_LEN:
                 scan.append([board[row + i][column] for i in range(4)])
-                # odd-even strategy cannot be applied for rows
-                locations.append((0, 0) for i in range(4))
+                # row index for every coin of scan for odd-even strategy
+                locations.append([(row + i, column) for i in range(4)])
 
             # adds negative diagonal to scan
             if row - 3 >= 0 and column + 3 < COLUMN_LEN:
@@ -185,22 +200,16 @@ def score_position(board):
 
     for i in range(len(scan)):
         # score positively for combinations made by AI
-        if scan[i].count(AI) == 4:
-            score += 100
-
-        elif scan[i].count(AI) == 3 and scan[i].count(EMPTY) == 1:
+        if scan[i].count(AI) == 3 and scan[i].count(EMPTY) == 1:
             score += 5
 
             # use odd-even strategy for AI
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
             score += odd_even_strategy(board, AI, empty_location, 100)
 
-        elif scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
-            score += 2
-
         # score negatively for combinations made by PLAYER
         if scan[i].count(PLAYER) == 3 and scan[i].count(EMPTY) == 1:
-            score += -4
+            score += -5
 
             # block odd-even strategy from PLAYER
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
@@ -242,9 +251,9 @@ def minimax(board, depth, alpha, beta, maximising_player):
 
     if depth == 0:
         return None, score_position(board)
-    elif is_game_won(board) == AI:
+    elif is_victory(board, None) == AI:
         return None, HIGH_VALUE
-    elif is_game_won(board) == PLAYER:
+    elif is_victory(board, None) == PLAYER:
         return None, -HIGH_VALUE
     elif len(available_columns(board)) == 0:
         return None, 0
@@ -379,7 +388,7 @@ def main():
             show_newest_coin(win, previous_board, BOARD)
             pygame.display.update()
 
-            if is_game_won(BOARD) != 0 or len(available_columns(BOARD)) == 0:
+            if is_victory(BOARD, win) is not None or len(available_columns(BOARD)) == 0:
                 running = False
 
         # PLAYER input
@@ -390,11 +399,11 @@ def main():
 
             if event.type == pygame.MOUSEMOTION:
                 mouse_x = event.pos[0]
-                draw_mouse(win, mouse_x, turn)
+                draw_mouse(win, mouse_x)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x = event.pos[0]
-                column = draw_mouse(win, mouse_x, turn)
+                column = draw_mouse(win, mouse_x)
                 previous_board = BOARD.copy()
 
                 if turn == PLAYER:
@@ -405,11 +414,11 @@ def main():
                     show_newest_coin(win, previous_board, BOARD)
                     pygame.display.update()
 
-                    if is_game_won(BOARD) != 0 or len(available_columns(BOARD)) == 0:
+                    if is_victory(BOARD, win) is not None or len(available_columns(BOARD)) == 0:
                         running = False
 
     print(np.flipud(BOARD))
-    pygame.time.wait(10000)
+    pygame.time.wait(5000)
 
 
 if __name__ == "__main__":
