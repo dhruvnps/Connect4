@@ -7,7 +7,7 @@ import signal
 
 
 # maximum seconds AI can take
-AI_TIME = 2
+AI_TIME = 5
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
