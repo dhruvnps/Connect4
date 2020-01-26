@@ -20,11 +20,11 @@ pip install numpy
 
 ## Searching algorithm
 
-# Minimax
+### Minimax
 
 abc
 
-# Alpha Beta Pruning
+### Alpha Beta Pruning
 
 abc
 
