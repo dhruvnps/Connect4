@@ -28,7 +28,9 @@ This AI uses the minimax algorithm to search for all possible board outcomes and
 
 ### Alpha Beta Pruning
 
-abc
+The minimax algorithm, when used naively, is very slow and inefficient as it explores all possible outcomes up to certain depth meaning with each depth the search time increases 7x. Alpha beta pruning significantly reduces the search time by eliminating branches of the search that will never be explored as it is undesirable for either the AI, or the player, and so the minimax will never have returned a final value from that branch. The nature of the algorithm means if the best move is found early in the search, more beaches can be disregarded. Therefore the searching algorithm is altered to search moves form the centre column first, them spread the search outwards to neighbouring columns, as the best move is more likely to be nearer to the centre.
+
+### Scoring function / odd-even strategy
 
 
 ## Graphical UI
