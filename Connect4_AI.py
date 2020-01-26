@@ -24,7 +24,7 @@ AI = 2
 
 PLAY_ORDER = [PLAYER, AI]
 # PLAY_ORDER.reverse()
-# random.shuffle(PLAY_ORDER)
+random.shuffle(PLAY_ORDER)
 
 GRID_SIZE = 98
 RADIUS = int(GRID_SIZE / 2.7)
