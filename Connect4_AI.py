@@ -1,6 +1,6 @@
 import random
 import math
-import pygame # NOTE: install v2.0 dev
+import pygame # NOTE: install v2.0.0.dev6
 import numpy as np
 import time
 import signal
