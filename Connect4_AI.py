@@ -7,7 +7,7 @@ import signal
 
 
 # maximum seconds AI can take
-AI_TIME = 6
+AI_TIME = 10
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -387,6 +387,7 @@ def ai():
 
 
 def main():
+    pygame.time.wait(10)
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     draw_board(win, BOARD)
 
