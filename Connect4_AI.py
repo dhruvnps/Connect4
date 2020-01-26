@@ -161,6 +161,7 @@ def scan_fours(board):
                 scan.append([board[row - i][column + i] for i in range(4)])
                 # row index for every coin of scan for odd-even strategy
                 locations.append([(row - i, column + i) for i in range(4)])
+                
             # adds positive diagonal to scan
             if row + 3 < ROW_LEN and column + 3 < COLUMN_LEN:
                 scan.append([board[row + i][column + i] for i in range(4)])
