@@ -1,6 +1,5 @@
 # AI For Connect 4
-Connect 4 artificial intelligence which uses the minimax algorithm to assess all possible outcomes up to the given search depth and calculates the best possible move using this data. The AI uses alpha beta pruning to narrow down its search options without sacrificing its performance in order to speed up the search process. Finally temporary transposition table is implemented which stores the board positions of the calculated outcomes alongside the depth of the calculations and the scores given to each board. Using the transposition table, iterative deepening can be introduced which means the AI will progressively search deeper as the game goes on as there will be fewer possible moves and a larger transposition table.
-
+A Connect 4 artificial intelligence which uses the minimax algorithm and alpha beta pruning to search for the possible best move. A transposition table is incorporated to store calculations and iterative deepening is used to make the AI progressively better as the game goes on when there are less possible outcomes. The pygame module is used for a graphical user interface in which the player can compete with the AI on a 6 x 7 board displayed on the screen. The difficulty of the AI can be adjusted by changing the time available to the AI.
 
 ## Prerequisites
 
@@ -81,7 +80,7 @@ The transposition table uses zobrist hashing to store hash values of board posit
 
 Using the introduction of the transposition table, iterative deepening can be implemented. Therefore, instead of limiting the depth of the search, the time available to the AI can be the limiting factor. The AI will iterative increase the depth of the search until the time available is up, at which point the AI is terminated and the move returned by the highest depth that could be calculated in the given time is used as the final move. The calculations made by lower depth iterations are saved in the transposition table, so as the depth is increased, the minimax can build upon the previous calculations instead of repeating them. Iterative deepening allows the depth of the search to increase as the game progresses and therefore the AI will become better as the game goes on.
 
-# Adjustable Parameters
+## Adjustable Parameters
 
 The time available to the AI can be adjusted to any integer value. A value of 1 is relatively easy to beat when the AI is playing second, and averages a depth of 5 at the start of the game. A value of 2 to 5 is significantly harder to beat and averages a depth of 6 to 7 at the start, with the depth increasing significantly as the game progresses. A value of more that 6 is very difficult to beat when the AI plays second, and almost impossible beat when the AI plays first, averaging a depth of 7 to 8 at the start, and reaching depths of over 10 after a few moves.
 ```
@@ -89,4 +88,11 @@ The time available to the AI can be adjusted to any integer value. A value of 1 
 AI_TIME = 6
 ```
 
+The play order can be adjusted to give the first move to the PLAYER or to the AI. The order of play is randomised by default.
+```
+PLAY_ORDER = [PLAYER, AI]
+
+# PLAY_ORDER.reverse()
+random.shuffle(PLAY_ORDER)
+```
 
