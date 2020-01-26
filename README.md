@@ -1,5 +1,5 @@
 # AI For Connect 4
-Connect 4 artificial intelligence which uses the minimax algorithm to access all possible outcomes up to the given search depth and calculates the best possible move using this data. The AI uses alpha beta pruning to narrow down its search options without sacrificing its performance in order to speed up the search process. Finally temporary transposition table is implemented which stores the board positions of the calculated outcomes alongside the depth of the calculations and the scores given to each board. Using the transposition table, iterative deepening can be introduced which means the AI will progressively search deeper as the game goes on as there will be fewer possible moves and a larger transposition table.
+Connect 4 artificial intelligence which uses the minimax algorithm to assess all possible outcomes up to the given search depth and calculates the best possible move using this data. The AI uses alpha beta pruning to narrow down its search options without sacrificing its performance in order to speed up the search process. Finally temporary transposition table is implemented which stores the board positions of the calculated outcomes alongside the depth of the calculations and the scores given to each board. Using the transposition table, iterative deepening can be introduced which means the AI will progressively search deeper as the game goes on as there will be fewer possible moves and a larger transposition table.
 
 
 ## Prerequisites
@@ -34,7 +34,7 @@ The minimax algorithm, when used naively, is very slow and inefficient as it exp
 
 ### Basic Scoring System
 
-The AI uses a scoring function to access board positions in order to implement the minimax algorithm. After testing different values, the following were found to work the best:
+The AI uses a scoring function to assess board positions in order to implement the minimax algorithm. After testing different values, the following were found to work the best:
 ```
 3 AI and 1 EMPTY  =====>   +5
 2 AI and 2 EMPTY  =====>   +2
@@ -53,3 +53,5 @@ Odd-Even for PLAYER  ===>  Distance from top * -100
 ```
 
 ## Graphical UI
+
+The Connect 4 board is dealt with as a 2D numpy array, in order to easily add coins and give to the minimax algorithm to assess. This is converted into a graphical representation of the board using the pygame module. The player can use the mouse to choose where to drop their coin, and after every move the graphical representation of the board is updated, and an indication of where the AI dropped its coin is displayed. When a player has won, the 4 consecutive coins will be indicated and the program will close.
