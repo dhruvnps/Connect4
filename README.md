@@ -52,6 +52,41 @@ Odd-Even for AI  =======>  Distance from top * 100
 Odd-Even for PLAYER  ===>  Distance from top * -100
 ```
 
+### Winning Move
+
+The winning move must be given ultimate value as it is the aim of the game.
+```
+Winning Move  ==========>  +1000000
+Loosing Move  ==========>  -1000000
+```
+
+The AI can be optimised be anticipating a win whe the board is in a position in which any one player can win the game in the next move. This effectively means that a depth 4 AI can peak into what will happen at depth 5, and can prevent a loss or push to a win.
+```
+Anticiapted Win  =======>  +100000
+Anticiapted Loss  ======>  -100000
+```
+This value is 10x less than the value give to a win, because is must be much greater than all other board positions, however a win/loss is stil prioritised over an imminent win/loss as the AI must not opt for a potential win and loose the game as a result.
+
 ## Graphical UI
 
 The Connect 4 board is dealt with as a 2D numpy array, in order to easily add coins and give to the minimax algorithm to assess. This is converted into a graphical representation of the board using the pygame module. The player can use the mouse to choose where to drop their coin, and after every move the graphical representation of the board is updated, and an indication of where the AI dropped its coin is displayed. When a player has won, the 4 consecutive coins will be indicated and the program will close.
+
+## Further Optimisations
+
+### Transposition table
+
+The transposition table uses zobrist hashing to store hash values of board positions calculated during the game to save the AI from starting from scratch every time it is called to calculate the best move. The transposition stores the hash of the board, the score of the boars, and the calculation depth that has resulted in the score. The transposition table is referred to every time the minimax algorithm is assessing a board, and if the board hash is in the table, and the calculation depth is greater than or equal to the depth of calculation the minimax algorithm must perform, the score stored in the table is used and the calculation doesn’t need to be done. If the table does not contain a hash, or the table contains a hash with a lower corresponding depth than the one calculated, the entry in the table is (over)written be the new calculation. This way the efficiency of the AI is improved significantly.
+
+### Iterative Deepening
+
+Using the introduction of the transposition table, iterative deepening can be implemented. Therefore, instead of limiting the depth of the search, the time available to the AI can be the limiting factor. The AI will iterative increase the depth of the search until the time available is up, at which point the AI is terminated and the move returned by the highest depth that could be calculated in the given time is used as the final move. The calculations made by lower depth iterations are saved in the transposition table, so as the depth is increased, the minimax can build upon the previous calculations instead of repeating them. Iterative deepening allows the depth of the search to increase as the game progresses and therefore the AI will become better as the game goes on.
+
+# Adjustable Parameters
+
+The time available to the AI can be adjusted to any integer value. A value of 1 is relatively easy to beat when the AI is playing second, and averages a depth of 5 at the start of the game. A value of 2 to 5 is significantly harder to beat and averages a depth of 6 to 7 at the start, with the depth increasing significantly as the game progresses. A value of more that 6 is very difficult to beat when the AI plays second, and almost impossible beat when the AI plays first, averaging a depth of 7 to 8 at the start, and reaching depths of over 10 after a few moves.
+```
+# maximum seconds AI can take
+AI_TIME = 6
+```
+
+
