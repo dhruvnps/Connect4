@@ -64,9 +64,9 @@ The AI can be optimised by anticipating a win when the board is in a position in
 Anticiapted Win  =======>  +100000
 Anticiapted Loss  ======>  -100000
 ```
-This value is 10x less than the value give to a win, because is must be much greater than all other board positions, however a win/loss is stil prioritised over an imminent win/loss as the AI must not opt for a potential win and loose the game as a result.
+This value is 10x less than the value give to a win, because is must be much greater than all other board positions, however a win/loss is still prioritised over an imminent win/loss as the AI must not opt for a potential win and loose the game as a result.
 
-## Graphical UI
+## Graphical User Interface
 
 The Connect 4 board is dealt with as a 2D numpy array, in order to easily add coins and give to the minimax algorithm to assess. This is converted into a graphical representation of the board using the pygame module. The player can use the mouse to choose where to drop their coin, and after every move the graphical representation of the board is updated, and an indication of where the AI dropped its coin is displayed. When a player has won, the 4 consecutive coins will be indicated and the program will close.
 
