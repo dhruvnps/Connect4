@@ -59,7 +59,7 @@ Winning Move  ==========>  +1000000
 Loosing Move  ==========>  -1000000
 ```
 
-The AI can be optimised be anticipating a win whe the board is in a position in which any one player can win the game in the next move. This effectively means that a depth 4 AI can peak into what will happen at depth 5, and can prevent a loss or push to a win.
+The AI can be optimised by anticipating a win when the board is in a position in which any one player can win the game in the next move. This effectively means that a depth 4 AI can peak into what will happen at depth 5, and can prevent a loss or push to a win.
 ```
 Anticiapted Win  =======>  +100000
 Anticiapted Loss  ======>  -100000
