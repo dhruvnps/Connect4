@@ -32,5 +32,16 @@ The minimax algorithm, when used naively, is very slow and inefficient as it exp
 
 ### Scoring Function
 
+The AI uses a scoring function to access board positions in order to implement the minimax algorithm. After testing different values, the following were found to work the best:
+```
+Odd-Even for AI =======> +100
+3 AI and 1 EMPTY ======> +5
+2 AI and 2 EMPTY ======> +2
+
+Odd-Even for PLAYER ===> +100
+3 PLAYER and 1 EMPTY ==> +5
+2 PLAYER and 2 EMPTY ==> +2
+```
+The odd even
 
 ## Graphical UI
