@@ -34,14 +34,20 @@ The minimax algorithm, when used naively, is very slow and inefficient as it exp
 
 The AI uses a scoring function to access board positions in order to implement the minimax algorithm. After testing different values, the following were found to work the best:
 ```
-Odd-Even for AI =======> +100
-3 AI and 1 EMPTY ======> +5
-2 AI and 2 EMPTY ======> +2
+3 AI and 1 EMPTY  =====>   +5
+2 AI and 2 EMPTY  =====>   +2
 
-Odd-Even for PLAYER ===> +100
-3 PLAYER and 1 EMPTY ==> +5
-2 PLAYER and 2 EMPTY ==> +2
+3 PLAYER and 1 EMPTY  ==>  -5
+2 PLAYER and 2 EMPTY  ==>  -2
 ```
-The odd even
+Alongside this basic scoring system, the odd-even strategy was implemented to more accurately calculate the value of a given position so the AI can improve its decision making.
+
+### Odd-Even Strategy
+
+The odd-even strategy dictates that is is favourable for the odd player to have a potential win with an empty position which completes the win on an odd row, with the opposite true for the even player. The odd player is the player that starts first and vice versa for the even player. This is because the other player will eventually be forced to play their coin in the column which gives their opponent the win if the board becomes full. Therefore the lower down the empty space is, the better, and the power the strategy means it must be scored highly:
+```
+Odd-Even for AI  =======>  Distance from top * 100
+Odd-Even for PLAYER  ===>  Distance from top * -100
+```
 
 ## Graphical UI
