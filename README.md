@@ -45,7 +45,7 @@ Alongside this basic scoring system, the odd-even strategy was implemented to mo
 
 ### Odd-Even Strategy
 
-The odd-even strategy dictates that is is favourable for the odd player to have a potential win with an empty position which completes the win on an odd row, with the opposite true for the even player. The odd player is the player that starts first and vice versa for the even player. This is because the other player will eventually be forced to play their coin in the column which gives their opponent the win if the board becomes full. Therefore the lower down the empty space is, the better, and the power the strategy means it must be scored highly:
+The odd-even strategy dictates that is is favourable for the odd player to have a potential win with an empty position which completes the win on an odd row, with the opposite true for the even player. The odd player is the player that starts first and vice versa for the even player. This is because when the board becomes full the other player will be forced to play their coin in the column that will give the opponent the win. Therefore the lower down the empty space is, the better. The power the strategy means it must be scored highly:
 ```
 Odd-Even for AI  =======>  Distance from top * 100
 Odd-Even for PLAYER  ===>  Distance from top * -100
