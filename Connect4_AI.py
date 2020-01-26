@@ -1,7 +1,7 @@
+import random
+import math
 import pygame
 import numpy as np
-import math
-import random
 import time
 import signal
 
