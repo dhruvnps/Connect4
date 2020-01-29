@@ -7,7 +7,7 @@ import signal
 
 
 # maximum seconds AI can take
-AI_TIME = 2
+AI_TIME = 3
 START = None
 
 ROW_LEN, COLUMN_LEN = 6, 7
@@ -25,7 +25,7 @@ AI = 2
 
 PLAY_ORDER = [PLAYER, AI]
 # PLAY_ORDER.reverse()
-random.shuffle(PLAY_ORDER)
+# random.shuffle(PLAY_ORDER)
 
 GRID_SIZE = 98
 RADIUS = int(GRID_SIZE / 2.7)
@@ -380,7 +380,7 @@ def ai():
     except Exception:
         print("TIME: " + str(time.time() - START))
         print("DEPTH: " + str(depth))
-        print("SCORE: " + str(results[1]))
+        print("SCORE: " + "%+d" % (results[1]))
         return results[0]
 
 
