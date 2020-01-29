@@ -7,7 +7,8 @@ import signal
 
 
 # maximum seconds AI can take
-AI_TIME = 10
+AI_TIME = 2
+START = None
 
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
@@ -161,7 +162,7 @@ def scan_fours(board):
                 scan.append([board[row - i][column + i] for i in range(4)])
                 # row index for every coin of scan for odd-even strategy
                 locations.append([(row - i, column + i) for i in range(4)])
-                
+
             # adds positive diagonal to scan
             if row + 3 < ROW_LEN and column + 3 < COLUMN_LEN:
                 scan.append([board[row + i][column + i] for i in range(4)])
@@ -264,6 +265,10 @@ def available_columns(board):
 
 
 def minimax(board, depth, alpha, beta, maximising_player):
+    # if the time has run out
+    if time.time() - START > AI_TIME:
+        raise Exception
+
     best_column = None
     hash = calculate_hash(board)
 
@@ -341,29 +346,25 @@ def minimax(board, depth, alpha, beta, maximising_player):
     return best_column, best_score
 
 
-def handler(signum, frame):
-    raise Exception
-
-
 # this is what is called by main function
 # should return index of column (0 to 6 inclusive)
 def ai():
     # first 2 moves should always be centre column
     if np.count_nonzero(BOARD) <= 2:
-        time.sleep(1)
+        pygame.time.wait(500)
         return COLUMN_LEN // 2
 
     # never be first to place coin in column other than center
     center_column = [BOARD[row][COLUMN_LEN // 2] for row in range(ROW_LEN)]
     if COLUMN_LEN // 2 in available_columns(BOARD):
         if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
-            time.sleep(1)
+            pygame.time.wait(500)
             return COLUMN_LEN // 2
 
     # if no preset move, calculate best move
-    start = time.time()
-    signal.signal(signal.SIGALRM, handler)
-    signal.alarm(AI_TIME)
+    # set start time
+    global START
+    START = time.time()
 
     try:
         # iterative deepening of minimax search
@@ -373,12 +374,11 @@ def ai():
             results = minimax(BOARD, depth, -math.inf, math.inf, True)
             depth += 1
             if results[1] == HIGH_VALUE:
-                signal.alarm(0)
-                time.sleep(1)
+                pygame.time.wait(500)
                 raise Exception
 
     except Exception:
-        print("TIME: " + str(time.time() - start))
+        print("TIME: " + str(time.time() - START))
         print("DEPTH: " + str(depth))
         print("SCORE: " + str(results[1]))
         return results[0]
@@ -388,7 +388,6 @@ def ai():
 
 
 def main():
-    pygame.time.wait(10)
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
     draw_board(win, BOARD)
 
