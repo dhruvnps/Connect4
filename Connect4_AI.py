@@ -103,8 +103,7 @@ def draw_mouse(win, mouse_x):
     pygame.draw.rect(win, WHITE, (0, 0, WIN_WIDTH, GRID_SIZE))
 
     pygame.draw.circle(win, RED, (selected_x, int(GRID_SIZE / 2)), RADIUS)
-    pygame.draw.circle(win, HIGHLIGHT, (selected_x,
-                                        selected_y), RADIUS, THICKNESS)
+    pygame.draw.circle(win, HIGHLIGHT, (selected_x, selected_y), RADIUS, THICKNESS)
 
     pygame.display.update()
     return selected_column
@@ -180,8 +179,7 @@ def scan_fours(board):
 # initialises random table for zobrist hashing
 ZOB_TABLE = []
 for _ in range(ROW_LEN):
-    ZOB_TABLE.append([[random.randint(1, 2**64 - 1)
-                       for _ in range(2)] for _ in range(COLUMN_LEN)])
+    ZOB_TABLE.append([[random.randint(1, 2**64 - 1) for _ in range(2)] for _ in range(COLUMN_LEN)])
 
 # cache table will contain hashes, calculation depths, and scores of calculated boards
 CACHE_TABLE = [[], [], [], []]
