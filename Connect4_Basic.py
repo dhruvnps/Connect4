@@ -5,7 +5,7 @@ import math
 ROW_LEN, COLUMN_LEN = 6, 7
 BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
 
-BLACK = (0, 0, 0)
+BLACK = (30, 30, 30)
 WHITE = (200, 200, 200)
 RED = (217, 60, 79)
 YELLOW = (250, 150, 60)
