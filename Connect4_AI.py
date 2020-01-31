@@ -378,7 +378,7 @@ def ai():
                 raise Exception
 
     except Exception:
-        print("TIME: " + str(time.time() - START))
+        print("TIME:  " + str("{0:.2f}".format(time.time() - START)))
         print("DEPTH: " + str(depth))
         print("SCORE: " + "%+d" % (results[1]))
         return results[0]
