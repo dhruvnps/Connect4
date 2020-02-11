@@ -24,7 +24,7 @@ PLAYER = 1
 AI = 2
 
 PLAY_ORDER = [PLAYER, AI]
-# PLAY_ORDER.reverse()
+PLAY_ORDER.reverse()
 # random.shuffle(PLAY_ORDER)
 
 GRID_SIZE = 98
