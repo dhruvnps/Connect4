@@ -4,10 +4,11 @@ import pygame  # NOTE: install v2.0.0.dev6
 import numpy as np
 import time
 import signal
+import pickle
 
 
 # maximum seconds AI can take
-AI_TIME = 3
+AI_TIME = 4
 START = None
 
 ROW_LEN, COLUMN_LEN = 6, 7
@@ -24,7 +25,7 @@ PLAYER = 1
 AI = 2
 
 PLAY_ORDER = [PLAYER, AI]
-PLAY_ORDER.reverse()
+# PLAY_ORDER.reverse()
 # random.shuffle(PLAY_ORDER)
 
 GRID_SIZE = 98
@@ -103,7 +104,8 @@ def draw_mouse(win, mouse_x):
     pygame.draw.rect(win, WHITE, (0, 0, WIN_WIDTH, GRID_SIZE))
 
     pygame.draw.circle(win, RED, (selected_x, int(GRID_SIZE / 2)), RADIUS)
-    pygame.draw.circle(win, HIGHLIGHT, (selected_x, selected_y), RADIUS, THICKNESS)
+    pygame.draw.circle(win, HIGHLIGHT, (selected_x,
+                                        selected_y), RADIUS, THICKNESS)
 
     pygame.display.update()
     return selected_column
@@ -176,14 +178,25 @@ def scan_fours(board):
 # //----------------------------------------AI_START----------------------------------------//
 
 
-# initialises random table for zobrist hashing
-ZOB_TABLE = []
-for _ in range(ROW_LEN):
-    ZOB_TABLE.append([[random.randint(1, 2**64 - 1) for _ in range(2)] for _ in range(COLUMN_LEN)])
+# initialises zob table and cache table (cache table hashes depend on zob table)
+#
+# zob table --> random table for zobrist hashing
+# ZOB_TABLE = []
+# for _ in range(ROW_LEN):
+#     ZOB_TABLE.append([[random.randint(1, 2**64 - 1) for _ in range(2)] for _ in range(COLUMN_LEN)])
+# with open('zobtable.pickle', 'wb') as f:
+#     pickle.dump(ZOB_TABLE, f)
+#
+# cache table --> contains: board hash, calculation depth, score, best column
+# CACHE_TABLE = [[], [], [], []]
+# with open('cachetable.pickle', 'wb') as f:
+#     pickle.dump(CACHE_TABLE, f)
 
-# cache table will contain hashes, calculation depths, and scores of calculated boards
-CACHE_TABLE = [[], [], [], []]
-CACHE_MAX = 2800
+# loads zob table and cache table files
+with open('cachetable.pickle', 'rb') as f:
+    CACHE_TABLE = pickle.load(f)
+with open('zobtable.pickle', 'rb') as f:
+    ZOB_TABLE = pickle.load(f)
 
 
 def calculate_hash(board):
@@ -339,11 +352,6 @@ def minimax(board, depth, alpha, beta, maximising_player):
     for (x, i) in enumerate(items_to_add):
         CACHE_TABLE[x].append(i)
 
-    # cull cache table
-    if len(CACHE_TABLE[0]) > CACHE_MAX:
-        for i in range(len(CACHE_TABLE)):
-            CACHE_TABLE[i] = CACHE_TABLE[i][-CACHE_MAX:]
-
     return best_column, best_score
 
 
@@ -353,14 +361,14 @@ def ai():
     # first 2 moves should always be centre column
     if np.count_nonzero(BOARD) <= 2:
         pygame.time.wait(500)
-        return COLUMN_LEN // 2
+        # return COLUMN_LEN // 2
 
     # never be first to place coin in column other than center
     center_column = [BOARD[row][COLUMN_LEN // 2] for row in range(ROW_LEN)]
     if COLUMN_LEN // 2 in available_columns(BOARD):
         if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
             pygame.time.wait(500)
-            return COLUMN_LEN // 2
+            # return COLUMN_LEN // 2
 
     # if no preset move, calculate best move
     # set start time
@@ -382,6 +390,8 @@ def ai():
         print("TIME:  " + str("{0:.2f}".format(time.time() - START)))
         print("DEPTH: " + str(depth))
         print("SCORE: " + "%+d" % (results[1]))
+        with open('cachetable.pickle', 'wb') as f:
+            pickle.dump(CACHE_TABLE, f)
         return results[0]
 
 
