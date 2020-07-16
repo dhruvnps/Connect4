@@ -360,16 +360,16 @@ def minimax(board, depth, alpha, beta, maximising_player):
 # should return index of column (0 to 6 inclusive)
 def ai():
     # first 2 moves should always be centre column
-    # if np.count_nonzero(BOARD) <= 2:
-    #     pygame.time.wait(500)
-        # return COLUMN_LEN // 2
+    if np.count_nonzero(BOARD) <= 2:
+        pygame.time.wait(500)
+        return COLUMN_LEN // 2
 
     # never be first to place coin in column other than center
-    # center_column = [BOARD[row][COLUMN_LEN // 2] for row in range(ROW_LEN)]
-    # if COLUMN_LEN // 2 in available_columns(BOARD):
-    #     if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
-    #         pygame.time.wait(500)
-    #         # return COLUMN_LEN // 2
+    center_column = [BOARD[row][COLUMN_LEN // 2] for row in range(ROW_LEN)]
+    if COLUMN_LEN // 2 in available_columns(BOARD):
+        if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
+            pygame.time.wait(500)
+            return COLUMN_LEN // 2
 
     # if no preset move, calculate best move
     # set start time
