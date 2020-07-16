@@ -3,10 +3,13 @@ import time
 import bisect
 import random
 
-with open('cachetable.pickle', 'rb') as f:
-    CACHE_TABLE = pickle.load(f)
+# with open('cachetable.pickle', 'rb') as f:
+#     CACHE_TABLE = pickle.load(f)
+
 arr = list(range(500000))
 random.shuffle(arr)
+
+arr2 = [[i, i, i, i] for i in range(500000)]
 
 
 def binarySearch(arr, l, r, x):
@@ -55,11 +58,14 @@ start = time.process_time()
 new.index(elem)
 print("index:    ", "{:e}".format(time.process_time() - start))
 
-#li = [CACHE_TABLE[i][:10] for i in range(4)]
-li = CACHE_TABLE
-indices = list(range(len(li[0])))
-indices.sort(key=li[0].__getitem__)
-for i, sublist in enumerate(li):
-    li[i] = [sublist[j] for j in indices]
-CACHE_TABLE = li
-print(CACHE_TABLE[0][:10])
+start = time.process_time()
+a = [i[0] for i in arr2]
+print("extract:  ", "{:e}".format(time.process_time() - start))
+
+# li = CACHE_TABLE
+# indices = list(range(len(li[0])))
+# indices.sort(key=li[0].__getitem__)
+# for i, sublist in enumerate(li):
+#     li[i] = [sublist[j] for j in indices]
+# CACHE_TABLE = li
+# print(CACHE_TABLE[0][:10])

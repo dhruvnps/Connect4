@@ -187,14 +187,14 @@ def scan_fours(board):
 # with open('zobtable.pickle', 'wb') as f:
 #     pickle.dump(ZOB_TABLE, f)
 #
-# cache table --> contains: board hash, calculation depth, score, best column
-# CACHE_TABLE = [[], [], [], []]
-# with open('cachetable.pickle', 'wb') as f:
+# cache table --> contains: board hash, calculation depth, best column, score
+# CACHE_TABLE = []
+# with open('cachetabletest.pickle', 'wb') as f:
 #     pickle.dump(CACHE_TABLE, f)
 
 
 # loads zob table and cache table files
-with open('cachetable.pickle', 'rb') as f:
+with open('cachetabletest.pickle', 'rb') as f:
     CACHE_TABLE = pickle.load(f)
 with open('zobtable.pickle', 'rb') as f:
     ZOB_TABLE = pickle.load(f)
@@ -297,7 +297,7 @@ def minimax(board, depth, alpha, beta, maximising_player):
         return None, 0
 
     # check it cache table can be used for given board
-    if hash in CACHE_TABLE[0]:
+    if hash in [i[0] for i in CACHE_TABLE]:
         hash_index = CACHE_TABLE[0].index(hash)
         calculation_depth = CACHE_TABLE[1][hash_index]
         if calculation_depth >= depth:
