@@ -8,7 +8,7 @@ import pickle
 
 
 # maximum seconds AI can take
-AI_TIME = 3
+AI_TIME = 8
 START = None
 
 ROW_LEN, COLUMN_LEN = 6, 7
@@ -209,7 +209,7 @@ def score_position(board):
 
             # use odd-even strategy for AI
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
-            score += odd_even_strategy(board, AI, empty_location, 100)
+            score += odd_even_strategy(board, AI, empty_location, 500)
 
         elif scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
             score += 2
@@ -220,12 +220,12 @@ def score_position(board):
 
             # block odd-even strategy from PLAYER
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
-            score += odd_even_strategy(board, PLAYER, empty_location, -100)
+            score += odd_even_strategy(board, PLAYER, empty_location, -500)
 
-        elif scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
+        elif scan[i].count(PLAYER) == 2 and scan[i].count(EMPTY) == 2:
             score += -2
 
-    # score positively for AI coins in center column
+    # score positively/negatively for AI/PLAYER coins respectively in center column
     center_column = [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
     score += 2 * center_column.count(AI)
 
@@ -352,12 +352,14 @@ def ai():
         pygame.time.wait(500)
         return COLUMN_LEN // 2
 
+    '''
     # never be first to place coin in column other than center
     center_column = [BOARD[row][COLUMN_LEN // 2] for row in range(ROW_LEN)]
     if COLUMN_LEN // 2 in available_columns(BOARD):
         if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
             pygame.time.wait(500)
             return COLUMN_LEN // 2
+    '''
 
     # if no preset move, calculate best move
     # set start time

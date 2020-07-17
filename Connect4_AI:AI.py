@@ -8,7 +8,7 @@ import pickle
 
 
 # maximum seconds AI can take
-AI_TIME = 0.5
+AI_TIME = 6
 START = None
 
 ROW_LEN, COLUMN_LEN = 6, 7
@@ -185,7 +185,7 @@ def score_position(board):
 
             # use odd-even strategy for AI
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
-            score += odd_even_strategy(board, AI, empty_location, 100)
+            score += odd_even_strategy(board, AI, empty_location, 500)
 
         elif scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
             score += 2
@@ -196,12 +196,12 @@ def score_position(board):
 
             # block odd-even strategy from PLAYER
             empty_location = list(locations[i])[scan[i].index(EMPTY)]
-            score += odd_even_strategy(board, PLAYER, empty_location, -100)
+            score += odd_even_strategy(board, PLAYER, empty_location, -500)
 
-        elif scan[i].count(AI) == 2 and scan[i].count(EMPTY) == 2:
+        elif scan[i].count(PLAYER) == 2 and scan[i].count(EMPTY) == 2:
             score += -2
 
-    # score positively for AI coins in center column
+    # score positively/negatively for AI/PLAYER coins respectively in center column
     center_column = [board[i][COLUMN_LEN // 2] for i in range(ROW_LEN)]
     score += 2 * center_column.count(AI)
 
@@ -327,9 +327,9 @@ def ai(turn):
 
     # invert 1 and 2 if turn is PLAYER played by ai
     if turn == PLAYER:
-        board[board == 2] = 3
-        board[board == 1] = 2
-        board[board == 3] = 1
+        board[board == AI] = -1
+        board[board == PLAYER] = AI
+        board[board == -1] = PLAYER
 
     # first 2 moves should always be centre column
     if np.count_nonzero(board) <= 2:
