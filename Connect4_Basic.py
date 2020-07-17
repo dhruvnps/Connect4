@@ -47,7 +47,8 @@ def draw_mouse(win, mouse_x, turn):
         color = YELLOW
 
     column = math.floor(mouse_x / GRID_SIZE)
-    pygame.draw.circle(win, color, (int((column + 0.5) * GRID_SIZE), int(GRID_SIZE / 2)), RADIUS)
+    pygame.draw.circle(
+        win, color, (int((column + 0.5) * GRID_SIZE), int(GRID_SIZE / 2)), RADIUS)
 
     pygame.display.update()
 
