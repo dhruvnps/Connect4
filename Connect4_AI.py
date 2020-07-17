@@ -179,21 +179,6 @@ def scan_fours(board):
 # //----------------------------------------AI_START----------------------------------------//
 
 
-# initialises zob table and cache table (cache table hashes depend on zob table)
-#
-# zob table --> random table for zobrist hashing
-# ZOB_TABLE = []
-# for _ in range(ROW_LEN):
-#     ZOB_TABLE.append([[random.randint(1, 2**64 - 1) for _ in range(2)] for _ in range(COLUMN_LEN)])
-# with open('zobtable.pickle', 'wb') as f:
-#     pickle.dump(ZOB_TABLE, f)
-#
-# cache table --> contains: board hash, calculation depth, score, best column
-# CACHE_TABLE = [[], [], [], []]
-# with open('cachetable.pickle', 'wb') as f:
-#     pickle.dump(CACHE_TABLE, f)
-
-
 # loads zob table and cache table files
 with open('cachetable.pickle', 'rb') as f:
     CACHE_TABLE = pickle.load(f)
@@ -250,12 +235,14 @@ def score_position(board):
 def odd_even_strategy(board, coin, location, score_bonus):
     row, column = location
 
+    '''
     # rewards imminent victory in preference of odd-even strategy
     # checks if the turn of the coin in question
     if (np.count_nonzero(board != EMPTY) - PLAY_ORDER.index(coin)) % 2 == 0:
         if row == 0 or board[row - 1][column] != EMPTY:
             # return negative/positive value if bonus is -100/100 respectively
             return (score_bonus / abs(score_bonus)) * (HIGH_VALUE / 10)
+    '''
 
     if row > 0:
         # rewards applying the odd-even strategy
