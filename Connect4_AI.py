@@ -8,7 +8,7 @@ import pickle
 
 
 # maximum seconds AI can take
-AI_TIME = 8
+AI_TIME = 6
 START = None
 
 ROW_LEN, COLUMN_LEN = 6, 7
