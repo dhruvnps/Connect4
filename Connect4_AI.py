@@ -105,8 +105,8 @@ def draw_mouse(win, mouse_x):
     pygame.draw.rect(win, WHITE, (0, 0, WIN_WIDTH, GRID_SIZE))
 
     pygame.draw.circle(win, RED, (selected_x, int(GRID_SIZE / 2)), RADIUS)
-    pygame.draw.circle(win, HIGHLIGHT, (selected_x,
-                                        selected_y), RADIUS, THICKNESS)
+    pygame.draw.circle(win, HIGHLIGHT, (selected_x, selected_y), RADIUS,
+                       THICKNESS)
 
     pygame.display.update()
     return selected_column
