@@ -6,7 +6,6 @@ import time
 import signal
 import pickle
 
-
 # maximum seconds AI can take
 AI_TIME = 6
 START = None
