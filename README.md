@@ -17,7 +17,6 @@ python Cache_Init.py
 or, delete the ```cachetable.pickle``` and ```zobtable.pickle``` files.
 Running the AI script will automatically check for these files and run the ```Cache_Init.py``` script if the files are not found.
 
-```
 To run the 2 player script:
 ```
 python Connect4_Basic.py
