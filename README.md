@@ -1,9 +1,31 @@
 # AI For Connect 4
-A Connect 4 artificial intelligence which uses the minimax algorithm and alpha beta pruning to search for the possible best move. A transposition table is incorporated to store calculations and iterative deepening is used to make the AI progressively better as the game goes on when there are less possible outcomes. The pygame module is used for a graphical user interface in which the player can compete with the AI on a 6 x 7 board displayed on the screen. The difficulty of the AI can be adjusted by changing the time available to the AI.
+A Connect 4 AI which uses the minimax algorithm and alpha beta pruning to search for the possible best move. A transposition table is incorporated storing previous calculations and iterative deepening is used to make the AI search progressively deeper as the transposition table becomes larger. The pygame module is used for the GUI in which the player can compete with the AI on a 6 x 7 board. The difficulty of the AI can be adjusted by changing the time available to the AI.
+
+## Usage
+
+To run the script vs AI:
+```
+python Connect4_AI.py
+```
+See the section on adjustable parameters to change behaviour of the AI
+
+The transposition and zobrists tables are already present with game data.
+To reset the tables:
+```
+python Cache_Init.py
+```
+or, delete the ```cachetable.pickle``` and ```zobtable.pickle``` files.
+Running the AI script will automatically check for these files and run the ```Cache_Init.py``` script if the files are not found.
+
+```
+To run the 2 player script:
+```
+python Connect4_Basic.py
+```
 
 ## Prerequisites
 
-The following modules are used by this program
+The following external modules are used
 ```
 pygame
 numpy
