@@ -40,7 +40,6 @@ $ pip install pygame==2.0.0.dev6
 $ pip install numpy
 ```
 
-
 ## Searching algorithms
 
 ### Minimax
@@ -101,18 +100,18 @@ Using the introduction of the transposition table, iterative deepening can be im
 ## Adjustable Parameters
 
 The time available to the AI in seconds can be adjusted to any integer value. A higher time value means the AI will achieve a higher depth of calculation.
-```
+```python
 # maximum seconds AI can take
 AI_TIME = 6
 ```
 
 This can be switched to true to train the AI by making it playing itself. This will improve the AI by increasing the number or boards stored in the transposition table.
-```
+```python
 AI_VS_AI = False
 ```
 
 The play order can be adjusted to give the first move to the PLAYER or to the AI. The order of play is randomised by default.
-```
+```python
 PLAY_ORDER = [PLAYER, AI]
 
 # PLAY_ORDER.reverse()
