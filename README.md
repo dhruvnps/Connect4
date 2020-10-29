@@ -22,21 +22,15 @@ To run the 2 player script:
 $ python Connect4_Basic.py
 ```
 
-## Prerequisites
+### Dependencies
 
 The following external modules are used
-```
-pygame
-numpy
-math
-random
-time
-signal
-os
-```
+-   [pygame](https://pypi.org/project/pygame)
+-   [numpy](https://pypi.org/project/numpy)
+
 Commands for installation of pygame 2.0 and numpy
 ```console
-$ pip install pygame==2.0.0.dev6
+$ pip install pygame
 $ pip install numpy
 ```
 
