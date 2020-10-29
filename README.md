@@ -11,6 +11,7 @@ math
 random
 time
 signal
+os
 ```
 Commands for installation of pygame 2.0 and numpy
 ```
@@ -27,7 +28,7 @@ This AI uses the minimax algorithm to search for all possible board outcomes and
 
 ### Alpha Beta Pruning
 
-The minimax algorithm, when used naively, is very slow and inefficient as it explores all possible outcomes up to certain depth meaning with each depth the search time increases 7x. Alpha beta pruning significantly reduces the search time by eliminating branches of the search that will never be explored as it is undesirable for either the AI, or the player, and so the minimax will never have returned a final value from that branch. The nature of the algorithm means if the best move is found early in the search, more branches can be disregarded. Therefore the searching algorithm is altered to search moves form the centre column first, them spread the search outwards to neighbouring columns, as the best move is more likely to be nearer to the centre.
+The minimax algorithm, when used naively, is slow and inefficient as it explores all possible outcomes up to certain depth, meaning with each depth the search time increases 7x. Alpha beta pruning significantly reduces the search time by eliminating branches of the search that will never be explored as it is undesirable for either the AI, or the player, and so the minimax will never have returned a final value from that branch. The nature of the algorithm means if the best move is found early in the search, more branches can be disregarded. Therefore the searching algorithm is altered to search moves form the centre column first, then spread the search outwards to neighbouring columns, as the best move is more likely to be nearer to the centre.
 
 ## Scoring Function
 
@@ -66,26 +67,27 @@ Anticiapted Loss  ======>  -100000
 ```
 This value is 10x less than the value give to a win, because is must be much greater than all other board positions, however a win/loss is still prioritised over an imminent win/loss as the AI must not opt for a potential win and loose the game as a result.
 
-## Graphical User Interface
-
-The Connect 4 board is dealt with as a 2D numpy array, in order to easily add coins and give to the minimax algorithm to assess. This is converted into a graphical representation of the board using the pygame module. The player can use the mouse to choose where to drop their coin, and after every move the graphical representation of the board is updated, and an indication of where the AI dropped its coin is displayed. When a player has won, the 4 consecutive coins will be indicated and the program will close.
-
 ## Further Optimisations
 
 ### Transposition table
 
-The transposition table uses zobrist hashing to store hash values of board positions calculated during the game to save the AI from starting from scratch every time it is called to calculate the best move. The transposition table stores the hash of the board, the score of the board, and the calculation depth that has resulted in the score. The transposition table is referred to every time the minimax algorithm is assessing a board, and if the board hash is in the table and the calculation depth is greater than or equal to the depth of calculation the minimax algorithm must perform, the score stored in the table is used and the calculation doesn’t need to be done. If the table does not contain a hash, or the table contains a hash with a lower corresponding depth than the one calculated, the entry in the table is (over)written as the new calculation. This way the efficiency of the AI is improved significantly.
+The transposition table uses zobrist hashing to store hash values of board positions calculated during the game to save the AI from starting from scratch every time it is called to calculate the best move. The transposition table stores the hash of the board, the score of the board, and the calculation depth that has resulted in the score. The transposition table is referred to every time the minimax algorithm is assessing a board, and if the board hash is in the table and the calculation depth is greater than or equal to the depth of calculation the minimax algorithm must perform, the score stored in the table is used and the calculation doesn’t need to be done. If the table does not contain a hash, or the table contains a hash with a lower corresponding depth than the one calculated, the entry in the table is (over)written as the new calculation. The calculations made in previous games are saved in the transposition table so the minimax can build upon the previous calculations instead of repeating them in future games.
 
 ### Iterative Deepening
 
-Using the introduction of the transposition table, iterative deepening can be implemented. Instead of limiting the depth of the search, the time available to the AI can be the limiting factor. The AI will iterative increase the depth of the search until the time available is up, at which point the AI is terminated and the move returned by the highest depth that could be calculated in the given time is used as the final move. The calculations made by lower depth iterations would have saved in the transposition table, so as the depth is increased, the minimax can build upon the previous calculations instead of repeating them. Iterative deepening allows the depth of the search to increase as the game progresses and therefore the AI will become better as the game goes on.
+Using the introduction of the transposition table, iterative deepening can be implemented. Instead of limiting the depth of the search, the time available to the AI can be the limiting factor. The AI will iterative increase the depth of the search until the time available is up, at which point the AI is terminated and the move returned by the highest depth that could be calculated in the given time is used as the final move.
 
 ## Adjustable Parameters
 
-The time available to the AI can be adjusted to any integer value. A value of 1 is relatively easy to beat when the AI is playing second, and averages a depth of 5 at the start of the game. A value of 2 to 5 is significantly harder to beat and averages a depth of 6 to 7 at the start, with the depth increasing significantly as the game progresses. A value of more that 6 is very difficult to beat when the AI plays second, and almost impossible beat when the AI plays first, averaging a depth of 7 to 8 at the start, and reaching depths of over 10 after a few moves.
+The time available to the AI in seconds can be adjusted to any integer value. A higher time value means the AI will achieve a higher depth of calculation.
 ```
 # maximum seconds AI can take
 AI_TIME = 6
+```
+
+This can be switched to true to train the AI by making it playing itself. This will improve the AI by increasing the number or boards stored in the transposition table.
+```
+AI_VS_AI = False
 ```
 
 The play order can be adjusted to give the first move to the PLAYER or to the AI. The order of play is randomised by default.
