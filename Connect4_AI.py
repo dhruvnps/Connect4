@@ -5,9 +5,12 @@ import numpy as np
 import time
 import signal
 import pickle
+import os
+
 
 # maximum seconds AI can take
-AI_TIME = 6
+AI_TIME = 3
+AI_VS_AI = False
 START = None
 
 ROW_LEN, COLUMN_LEN = 6, 7
@@ -178,6 +181,10 @@ def scan_fours(board):
 # //----------------------------------------AI_START----------------------------------------//
 
 
+# initialises zob table and cache table files
+if (not (os.path.exists('cachetable.pickle') and os.path.exists('zobtable.pickle'))):
+    import Cache_Init
+
 # loads zob table and cache table files
 with open('cachetable.pickle', 'rb') as f:
     CACHE_TABLE = pickle.load(f)
@@ -345,10 +352,18 @@ def minimax(board, depth, alpha, beta, maximising_player):
 
 # this is what is called by main function
 # should return index of column (0 to 6 inclusive)
-def ai():
+def ai(turn):
+    board = BOARD.copy()
+    if AI_VS_AI:
+        # invert 1 and 2 if turn is PLAYER played by ai
+        if turn == PLAYER:
+            board[board == AI] = -1
+            board[board == PLAYER] = AI
+            board[board == -1] = PLAYER
+
     # first 2 moves should always be centre column
-    if np.count_nonzero(BOARD) <= 2:
-        pygame.time.wait(500)
+    if np.count_nonzero(board) <= 2:
+        pygame.time.wait(0 if AI_VS_AI else 500)
         return COLUMN_LEN // 2
 
     '''
@@ -356,7 +371,7 @@ def ai():
     center_column = [BOARD[row][COLUMN_LEN // 2] for row in range(ROW_LEN)]
     if COLUMN_LEN // 2 in available_columns(BOARD):
         if np.subtract(np.count_nonzero(BOARD), np.count_nonzero(center_column)) == 0:
-            pygame.time.wait(500)
+            pygame.time.wait(0 if AI_VS_AI else 500)
             return COLUMN_LEN // 2
     '''
 
@@ -370,13 +385,15 @@ def ai():
         depth = 1
         results = None
         while True:
-            results = minimax(BOARD, depth, -math.inf, math.inf, True)
+            results = minimax(board, depth, -math.inf, math.inf, True)
             depth += 1
             if results[1] == HIGH_VALUE:
-                pygame.time.wait(500)
+                pygame.time.wait(0 if AI_VS_AI else 500)
                 raise Exception
 
     except Exception:
+        if AI_VS_AI:
+            print("TURN:  " + str(turn))
         print("TIME:  " + str("{0:.2f}".format(time.time() - START)))
         print("DEPTH: " + str(depth))
         print("SCORE: " + "%+d" % (results[1]))
@@ -398,11 +415,11 @@ def main():
     running = True
     while running:
         # AI input
-        if turn == AI:
+        if turn == AI or AI_VS_AI:
             previous_board = BOARD.copy()
 
-            if drop_coin(ai(), turn, BOARD):
-                turn = PLAYER
+            if drop_coin(ai(turn), turn, BOARD):
+                turn = PLAYER if turn == AI else AI
 
             draw_board(win, BOARD)
             show_newest_coin(win, previous_board, BOARD)
@@ -417,30 +434,45 @@ def main():
                 pygame.quit()
                 quit()
 
-            if event.type == pygame.MOUSEMOTION:
-                mouse_x = event.pos[0]
-                draw_mouse(win, mouse_x)
+            if not AI_VS_AI:
+                if event.type == pygame.MOUSEMOTION:
+                    mouse_x = event.pos[0]
+                    draw_mouse(win, mouse_x)
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x = event.pos[0]
-                column = draw_mouse(win, mouse_x)
-                previous_board = BOARD.copy()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_x = event.pos[0]
+                    column = draw_mouse(win, mouse_x)
+                    previous_board = BOARD.copy()
 
-                if turn == PLAYER:
-                    if drop_coin(column, turn, BOARD):
-                        turn = AI
+                    if turn == PLAYER:
+                        if drop_coin(column, turn, BOARD):
+                            turn = AI
 
-                    draw_board(win, BOARD)
-                    show_newest_coin(win, previous_board, BOARD)
-                    pygame.display.update()
+                        draw_board(win, BOARD)
+                        show_newest_coin(win, previous_board, BOARD)
+                        pygame.display.update()
 
-                    if is_victory(BOARD, win) is not None or len(available_columns(BOARD)) == 0:
-                        running = False
+                        if (
+                            is_victory(BOARD, win) is not None
+                            or len(available_columns(BOARD)) == 0
+                        ):
+                            running = False
 
     print("\nFINAL BOARD:")
     print(np.flipud(BOARD))
-    pygame.time.wait(5000)
+    if AI_VS_AI:
+        pygame.time.wait(500)
+    else:
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
 
 
 if __name__ == "__main__":
     main()
+    if AI_VS_AI:
+        while True:
+            BOARD = np.zeros((ROW_LEN, COLUMN_LEN))
+            main()
