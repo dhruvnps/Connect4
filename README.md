@@ -7,7 +7,7 @@ To run the script vs AI:
 ```
 python Connect4_AI.py
 ```
-See the section on [adjestable parameters](#Adjustable Parameters) to change behaviour of the AI
+See the section on [adjestable parameters](#adjustable-parameters) to change behaviour of the AI
 
 The transposition and zobrists tables are already present with game data.
 To reset the tables:
