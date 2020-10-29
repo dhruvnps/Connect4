@@ -5,21 +5,21 @@ A Connect 4 AI which uses the minimax algorithm and alpha beta pruning to search
 
 To run the script vs AI:
 ```
-python Connect4_AI.py
+$ python Connect4_AI.py
 ```
 See the section on [adjestable parameters](#adjustable-parameters) to change behaviour of the AI
 
 The transposition and zobrists tables are already present with game data.
 To reset the tables:
 ```
-python Cache_Init.py
+$ python Cache_Init.py
 ```
 or, delete the ```cachetable.pickle``` and ```zobtable.pickle``` files.
 Running the AI script will automatically check for these files and run the ```Cache_Init.py``` script if the files are not found.
 
 To run the 2 player script:
 ```
-python Connect4_Basic.py
+$ python Connect4_Basic.py
 ```
 
 ## Prerequisites
