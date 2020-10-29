@@ -1,24 +1,38 @@
 # AI For Connect 4
-A Connect 4 artificial intelligence which uses the minimax algorithm and alpha beta pruning to search for the possible best move. A transposition table is incorporated to store calculations and iterative deepening is used to make the AI progressively better as the game goes on when there are less possible outcomes. The pygame module is used for a graphical user interface in which the player can compete with the AI on a 6 x 7 board displayed on the screen. The difficulty of the AI can be adjusted by changing the time available to the AI.
+A Connect 4 AI which uses the minimax algorithm and alpha beta pruning to search for the possible best move. A transposition table is incorporated storing previous calculations and iterative deepening is used to make the AI search progressively deeper as the transposition table becomes larger. The pygame module is used for the GUI in which the player can compete with the AI on a 6 x 7 board. The difficulty of the AI can be adjusted by changing the time available to the AI.
 
-## Prerequisites
+## Usage
 
-The following modules are used by this program
+To run the script vs AI:
+```console
+$ python Connect4_AI.py
 ```
-pygame
-numpy
-math
-random
-time
-signal
-os
+See the section on [adjestable parameters](#adjustable-parameters) to change behaviour of the AI
+
+The transposition and zobrists tables are already present with game data.
+To reset the tables:
+```console
+$ python Cache_Init.py
 ```
+or, delete the ```cachetable.pickle``` and ```zobtable.pickle``` files.
+Running the AI script will automatically check for these files and run the ```Cache_Init.py``` script if the files are not found.
+
+To run the 2 player script:
+```console
+$ python Connect4_Basic.py
+```
+
+### Dependencies
+
+The following external modules are used
+-   [pygame](https://pypi.org/project/pygame)
+-   [numpy](https://pypi.org/project/numpy)
+
 Commands for installation of pygame 2.0 and numpy
+```console
+$ pip install pygame
+$ pip install numpy
 ```
-pip install pygame==2.0.0.dev6
-pip install numpy
-```
-
 
 ## Searching algorithms
 
@@ -80,18 +94,18 @@ Using the introduction of the transposition table, iterative deepening can be im
 ## Adjustable Parameters
 
 The time available to the AI in seconds can be adjusted to any integer value. A higher time value means the AI will achieve a higher depth of calculation.
-```
+```python
 # maximum seconds AI can take
 AI_TIME = 6
 ```
 
 This can be switched to true to train the AI by making it playing itself. This will improve the AI by increasing the number or boards stored in the transposition table.
-```
+```python
 AI_VS_AI = False
 ```
 
 The play order can be adjusted to give the first move to the PLAYER or to the AI. The order of play is randomised by default.
-```
+```python
 PLAY_ORDER = [PLAYER, AI]
 
 # PLAY_ORDER.reverse()
